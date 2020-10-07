@@ -2,6 +2,11 @@
   "expo": {
     "name": "test-reactnative",
     "slug": "test-reactnative",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -20,7 +25,18 @@
       "supportsTablet": true
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "config": {
+        "firebase": {
+          "apiKey": "AIzaSyDgwhPwhLT6NLFbFjLUirjGocTGxazIBCU",
+          "authDomain": "product-3c000.firebaseapp.com",
+          "databaseURL": "https://product-3c000.firebaseio.com",
+          "projectId": "product-3c000",
+          "storageBucket": "product-3c000.appspot.com",
+          "messagingSenderId": "208041875505",
+          "appId": "1:208041875505:web:4d466843a9c0d1dd1add10",
+          "measurementId": "G-JRY61NGHWR"
+        }
+      }
     }
   }
 }
