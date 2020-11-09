@@ -26,8 +26,6 @@ function Home(){
   );
 }
 
-
-
 function App() {
   const [count, setCount] = useState(10);
   let countString = "count in App:"+count;
