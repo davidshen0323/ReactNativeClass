@@ -9,19 +9,20 @@ const styles = StyleSheet.create({
       flexDirection: "column",
       justifyContent: "center",
       padding: 35,
-      backgroundColor: '#fff',
+      backgroundColor: '#ffd1a4',
       marginTop: StatusBar.currentHeight || 0,
       alignItems: "center",
 
     },
 
     item: {
-      flex: 1,
+      flex: 5,
       flexDirection: 'row',
-      backgroundColor: '#00ffff',
+      backgroundColor: '#ffffff',
       padding: 8,
       marginVertical: 8,
-      marginHorizontal: 16,
+      // marginHorizontal: 16,
+      alignContent: 'space-around',
     },
 
     title: {

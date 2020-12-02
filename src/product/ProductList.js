@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
         marginTop: 22
       },
   container: {
-    //backgroundColor: '#00bfff',
+    backgroundColor: '#ffd1a4',
     flex: 1,
     //margin: 'auto',
     flexDirection: 'row',
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
   item: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#00ffff',
+    backgroundColor: '#ffffff',
     padding: 8,
     marginVertical: 8,
     marginHorizontal: 16,
