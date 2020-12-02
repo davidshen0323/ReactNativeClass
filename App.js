@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import PersonList from './src/person/PersonList';
 import ProductList from './src/product/ProductList';
+//import SignIn2 from './src/account/SignIn2';
 import SignIn from './src/account/SignIn';
 import SignOut from './src/account/SignOut';
 import SignUp from './src/account/SignUp';
@@ -37,6 +38,7 @@ function App() {
 
     <NavigationContainer>
       <Stack.Navigator>
+        {/* <Stack.Screen name="SignIn2" component={SignIn2} /> */}
         <Stack.Screen name="SignIn" component={SignIn} />
         <Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name="SignOut" component={SignOut} />
