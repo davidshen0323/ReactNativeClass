@@ -15,6 +15,22 @@ const styles = StyleSheet.create({
 
     },
 
+    container2: {
+      flex: 1,
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      padding: 35,
+      backgroundColor: '#ffd1a4',
+      marginTop: StatusBar.currentHeight || 0,
+      // marginLeft: 5,
+      // marginRight:5,
+      // marginTop: 10,
+      alignItems: "center",
+
+    },
+
+
     item: {
       flex: 5,
       flexDirection: 'row',
