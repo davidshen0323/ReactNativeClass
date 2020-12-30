@@ -12,6 +12,7 @@ import Announcement from './src/announcement/Announcement';
 import Click from './Click';
 // import * as SecureStore from 'expo-secure-store';
 import ImageUpload from './src/storage/ImageUpload';
+import Commentbox from './src/commentbox/Commentbox';
 
 //push
 import Constants from 'expo-constants';
@@ -43,6 +44,7 @@ function Home(){
       <Tab.Navigator>
         <Tab.Screen name="Person" component={PersonList} />
         <Tab.Screen name="Announcement" component={Announcement} />
+        <Tab.Screen name="Commentbox" component={Commentbox} />
         <Tab.Screen name="Product" component={ProductList} />
         {/* <Tab.Screen name="Click" component={Click} initialParams={{ count: 10 }}/> */}
         <Tab.Screen name="Image" component={ImageUpload}/>
