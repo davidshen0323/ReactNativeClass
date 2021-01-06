@@ -1,58 +1,42 @@
 import React, { useState, useEffect } from "react";
 import { Button, View, Text, TextInput, Image } from "react-native";
-import * as firebase from "firebase";
-import * as FirebaseCore from "expo-firebase-core";
 import styles from "../styles";
 import CheckBox from "react-native-check-box";
 import * as SecureStore from "expo-secure-store";
+import axios from 'axios';
+import { useLinkProps } from "@react-navigation/native";
 
 
 
-export default function SignIn({ navigation }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isSelected, setSelect] = useState(false);
+  export default function SignIn({ navigation }) {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [isSelected, setSelect] = useState(false);
+    const axios_config = {
+      headers: {'Content-Type': 'application/json'}
+    };
+    const url = "http://140.136.156.12:8080/login";
 
-  if (!firebase.apps.length) {
-    firebase.initializeApp(FirebaseCore.DEFAULT_WEB_APP_OPTIONS);
-  }
-
-  function signIn() {
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then((res) => {
-        console.log(res);
-        console.log("User login successfully!");
-        if (isSelected === true) {
-          const loginString = JSON.stringify({
-            email: email,
-            password: password,
-          });
-          SecureStore.setItemAsync("login", loginString)
-            .then(() => {
-              const login = JSON.parse(loginString);
-              console.log(login);
-              setEmail(login.email);
-              setPassword(login.password);
-            })
-            .catch((error) => {
-              setEmail(error.message);
-            });
-        } else {
-          SecureStore.deleteItemAsync("login")
-            .then(() => {
-              setEmail("");
-              setPassword("");
-            })
-            .catch((error) => {
-              setEmail(error.message);
-            });
+    async function signIn() {
+      const form = {
+        fields:{
+          Userid:email,
+          Userpassword:password
         }
+      }
+      
+    try {
+      const result = await axios.post(url, form, axios_config);
+      console.log(result);
+      props.update();
+    }catch(e) {
+      console.log("error: "+e);
+    }
 
-        navigation.navigate("Home");
-      })
-      .catch((error) => setEmail(error.message));
+  }
+  
+  function update(){
+    signIn();
   }
 
   function getAccount() {
@@ -95,7 +79,7 @@ export default function SignIn({ navigation }) {
         secureTextEntry={true}
       />
 
-      <Button title="登入" onPress={signIn} />
+      <Button title="登入" onPress={update} />
 
       <View style={styles.checkboxContainer}>
         <CheckBox
