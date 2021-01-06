@@ -1,19 +1,19 @@
 import React, {useState, useEffect} from 'react';
-import { FlatList, View, Text, TouchableOpacity, Button} from 'react-native';
+import { FlatList, View, Text, TouchableOpacity, StatusBar, StyleSheet} from 'react-native';
 import { Icon, Fab } from "native-base";
 import axios from "axios";
-import CommentboxAdd from "./CommentboxAdd";
-import styles from "../styles";
+import CommentboxAddEdit from "./CommentboxAddEdit";
+// import styles from "../styles";
 import { Avatar} from "react-native-paper";
 
 const LeftContent = (props) => <Avatar.Icon {...props} icon="folder" />;
 
 export default function Commentbox() {
 
-   const[Commentboxs, setCommentboxs] = useState([]);
+   const[commentboxs, setCommentboxs] = useState([]);
    const [modalVisible, setModalVisible] = useState(false);
    const [selectedId, setSelectedId] = useState(null);
-   const [Commentbox, setCommentbox] = useState({
+   const [commentbox, setCommentbox] = useState({
     Title:"",
     Content: "",
   });
@@ -25,7 +25,7 @@ export default function Commentbox() {
         headers: { Authorization: "Bearer keys9gKjERVN7YgGk" },
       };
       const url =
-        "https://api.airtable.com/v0/appCvAxAr9rxmTWh4/Commentbox?maxRecords=3&view=Grid%20view";
+        "https://api.airtable.com/v0/appCvAxAr9rxmTWh4/Commentbox?maxRecords50&=view=Grid%20view";
       const result = await axios.get(url, axios_config);
       //console.log(result);
       setCommentboxs(result.data.records);
@@ -63,8 +63,8 @@ export default function Commentbox() {
 
   function update(id, index) {
     setCommentbox({
-      Title: Commentboxs[index].fields.Title,
-      City: Commentboxs[index].fields.Content,
+      Title: commentboxs[index].fields.Title,
+      City: commentboxs[index].fields.Content,
     });
 
     setSelectedId(id);
@@ -97,7 +97,7 @@ export default function Commentbox() {
 
     <View style={styles.container2}>
       <FlatList
-        data={Commentboxs}
+        data={commentboxs}
         renderItem={renderItem}
         keyExtractor={(item, index) => "" + index}
       ></FlatList>
@@ -106,15 +106,92 @@ export default function Commentbox() {
         <Icon ios="ios-add" android="md-add" />
       </Fab>
 
-      {/* <CommentboxAdd
+      <CommentboxAddEdit
         modalVisible={modalVisible}
         commentbox={commentbox}
         id={selectedId}
         hide={hide}
-      /> */}
+      />
       
     </View>
 
   );
 
 }
+
+
+
+const styles = StyleSheet.create({
+
+  container: {
+    flex: 1,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    padding: 35,
+    backgroundColor: '#ffd1a4',
+    marginTop: StatusBar.currentHeight || 0,
+    alignItems: "center",
+
+  },
+
+  container2: {
+    flex: 1,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    padding: 10,
+    backgroundColor: '#ffd1a4',
+    marginTop: StatusBar.currentHeight || 0,
+    // marginLeft: 5,
+    // marginRight:5,
+    // marginTop: 10,
+    alignItems: "center",
+
+  },
+
+
+  item: {
+    flex: 5,
+    flexDirection: 'row',
+    backgroundColor: '#ffffff',
+    padding: 12,
+    marginVertical: 8,
+    // marginHorizontal: 16,
+    alignContent: 'space-around',
+    borderRadius: 20,
+  },
+
+  title: {
+    fontSize: 24,
+  },
+
+  inputStyle: {
+    width: '100%',
+    marginBottom: 15,
+    paddingBottom: 15,
+    alignSelf: "center",
+    borderColor: "#ccc",
+    borderBottomWidth: 1
+  },
+
+
+  checkboxContainer: {
+    flexDirection: "row",
+    marginBottom: 20,
+  },
+  checkbox: {
+    alignSelf: "center",
+  },
+
+  logo: {
+
+    width: 305,
+    height: 159,
+    marginBottom: 20,
+
+  },
+
+  
+
+});
