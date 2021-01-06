@@ -72,7 +72,8 @@ export default function Commentbox() {
   }
 
   const Item = ({ index, item, onPress, style }) => (
-    <TouchableOpacity onPress={onPress} style={[styles.item, style]}>
+    <TouchableOpacity
+      onPress={onPress} style={[styles.item, style]}>
       <Text style={styles.title}>{item.fields.Title}</Text>
       <Text>{item.fields.Content}</Text>
     </TouchableOpacity>
@@ -192,6 +193,8 @@ const styles = StyleSheet.create({
 
   },
 
+
+  
   
 
 });

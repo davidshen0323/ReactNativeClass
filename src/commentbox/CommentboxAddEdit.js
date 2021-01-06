@@ -88,7 +88,7 @@ export default function CommentboxAddEdit(props) {
                     <Button onPress={update} title="確定" />
                     <Button onPress={props.hide} title="取消" />
                 </View>
-                
+
             </View>
             
         </Modal>
@@ -119,6 +119,8 @@ const styles = StyleSheet.create({
       height: 200
 
     },
+
+    
 
   
   });

@@ -70,7 +70,7 @@ export default function PersonList() {
     setPerson({
       Name: persons[index].fields.Name,
       City: persons[index].fields.City,
-      Age: persons[index].fields.Ag,
+      Age: persons[index].fields.Age,
     });
 
     setSelectedId(id);
