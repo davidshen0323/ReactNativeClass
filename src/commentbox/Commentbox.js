@@ -1,24 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { FlatList, View, Text, TouchableOpacity } from "react-native";
+import React, {useState, useEffect} from 'react';
+import { FlatList, View, Text, TouchableOpacity, Button} from 'react-native';
 import { Icon, Fab } from "native-base";
 import axios from "axios";
-import PersonAddEdit from "./PersonAddEdit";
+import CommentboxAdd from "./CommentboxAdd";
 import styles from "../styles";
-import { set } from "react-native-reanimated";
-import { Avatar, Button, Card, Title, Paragraph } from "react-native-paper";
-import { Col, Row, Grid } from "react-native-easy-grid";
+import { Avatar} from "react-native-paper";
 
 const LeftContent = (props) => <Avatar.Icon {...props} icon="folder" />;
 
-export default function PersonList() {
-  const [persons, setPersons] = useState([]);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedId, setSelectedId] = useState(null);
-  const [person, setPerson] = useState({
-    Name: "",
-    City: "",
-    Age: 0,
-  }); //temp variable for edit
+export default function Commentbox() {
+
+   const[Commentboxs, setCommentboxs] = useState([]);
+   const [modalVisible, setModalVisible] = useState(false);
+   const [selectedId, setSelectedId] = useState(null);
+   const [Commentbox, setCommentbox] = useState({
+    Title:"",
+    Content: "",
+  });
+   
 
   useEffect(() => {
     async function fetchData() {
@@ -26,40 +25,36 @@ export default function PersonList() {
         headers: { Authorization: "Bearer keys9gKjERVN7YgGk" },
       };
       const url =
-        "https://api.airtable.com/v0/appCvAxAr9rxmTWh4/Student?maxRecords=30&view=Grid%20view";
+        "https://api.airtable.com/v0/appCvAxAr9rxmTWh4/Commentbox?maxRecords=3&view=Grid%20view";
       const result = await axios.get(url, axios_config);
       //console.log(result);
-      setPersons(result.data.records);
+      setCommentboxs(result.data.records);
     }
 
     fetchData();
   }, [modalVisible]);
 
+    
   function hide() {
-    setPerson({
-      Name: "",
-      City: "",
-      Age: 0,
+    setCommentbox({
+        Title:"",
+        Content: "",
     });
     setSelectedId("");
     setModalVisible(false);
   }
 
   function close() {
-    setPerson({
-      Name: "",
-      City: "",
-      Age: 0,
+    setCommentbox({
+        Title:"",
+        Content: "",
     });
-
-    // props.hide();
   }
 
   function add() {
-    setPerson({
-      Name: "",
-      City: "",
-      Age: 0,
+    setCommentbox({
+        Title:"",
+        Content: "",
     });
 
     setSelectedId("");
@@ -67,10 +62,9 @@ export default function PersonList() {
   }
 
   function update(id, index) {
-    setPerson({
-      Name: persons[index].fields.Name,
-      City: persons[index].fields.City,
-      Age: persons[index].fields.Ag,
+    setCommentbox({
+      Title: Commentboxs[index].fields.Title,
+      City: Commentboxs[index].fields.Content,
     });
 
     setSelectedId(id);
@@ -79,10 +73,8 @@ export default function PersonList() {
 
   const Item = ({ index, item, onPress, style }) => (
     <TouchableOpacity onPress={onPress} style={[styles.item, style]}>
-      <Text>{index}</Text>
-      <Text style={styles.title}>{item.fields.Name}</Text>
-      <Text>{item.fields.City},</Text>
-      <Text>{item.fields.Age}</Text>
+      <Text style={styles.title}>{item.fields.Title}</Text>
+      <Text>{item.fields.Content}</Text>
     </TouchableOpacity>
   );
 
@@ -100,10 +92,12 @@ export default function PersonList() {
     );
   };
 
+
   return (
+
     <View style={styles.container2}>
       <FlatList
-        data={persons}
+        data={Commentboxs}
         renderItem={renderItem}
         keyExtractor={(item, index) => "" + index}
       ></FlatList>
@@ -112,12 +106,15 @@ export default function PersonList() {
         <Icon ios="ios-add" android="md-add" />
       </Fab>
 
-      <PersonAddEdit
+      {/* <CommentboxAdd
         modalVisible={modalVisible}
-        person={person}
+        commentbox={commentbox}
         id={selectedId}
         hide={hide}
-      />
+      /> */}
+      
     </View>
+
   );
+
 }

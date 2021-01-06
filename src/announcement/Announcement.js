@@ -156,7 +156,6 @@ export default function Announcement() {
   );
 
 }
-
 const styles = StyleSheet.create({
     centeredView: {
       flex: 1,

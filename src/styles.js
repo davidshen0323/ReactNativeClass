@@ -9,19 +9,37 @@ const styles = StyleSheet.create({
       flexDirection: "column",
       justifyContent: "center",
       padding: 35,
-      backgroundColor: '#fff',
+      backgroundColor: '#ffd1a4',
       marginTop: StatusBar.currentHeight || 0,
       alignItems: "center",
 
     },
 
-    item: {
+    container2: {
       flex: 1,
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      padding: 10,
+      backgroundColor: '#ffd1a4',
+      marginTop: StatusBar.currentHeight || 0,
+      // marginLeft: 5,
+      // marginRight:5,
+      // marginTop: 10,
+      alignItems: "center",
+
+    },
+
+
+    item: {
+      flex: 5,
       flexDirection: 'row',
-      backgroundColor: '#00ffff',
-      padding: 8,
+      backgroundColor: '#ffffff',
+      padding: 12,
       marginVertical: 8,
-      marginHorizontal: 16,
+      // marginHorizontal: 16,
+      alignContent: 'space-around',
+      borderRadius: 20,
     },
 
     title: {
