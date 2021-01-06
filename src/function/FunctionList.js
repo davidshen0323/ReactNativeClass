@@ -12,6 +12,7 @@ import ProductList from "../product/ProductList";
 import PersonList from "../person/PersonList";
 import ImageUpload from "../storage/ImageUpload";
 import SignOut from "../account/SignOut";
+import HandsUp from "../HandsUp/HandsUpChoose";
 
 const LeftContent = (props) => <Avatar.Icon {...props} icon="folder" />;
 
@@ -109,11 +110,13 @@ export default function FunctionList() {
 
   return (
     <Tab.Navigator>
+    <Tab.Screen name="HandsUp" component={HandsUp}/>
     <Tab.Screen name="Person" component={PersonList} />
     <Tab.Screen name="Product" component={ProductList} />
     {/* <Tab.Screen name="Click" component={Click} initialParams={{ count: 10 }}/> */}
     <Tab.Screen name="Image" component={ImageUpload} />
     <Tab.Screen name="SignOut" component={SignOut} />
+    
   </Tab.Navigator>
     // <View style={styles.container2}>
     //   {/* <FlatList
