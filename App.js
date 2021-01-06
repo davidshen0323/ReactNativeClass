@@ -12,7 +12,9 @@ import Announcement from './src/announcement/Announcement';
 import Click from './Click';
 // import * as SecureStore from 'expo-secure-store';
 import ImageUpload from './src/storage/ImageUpload';
-import Commentbox from './src/commentbox/Commentbox';
+//import HandsUp from './src/HandsUp/HandsUpWork';
+import HandsUp from './src/HandsUp/HandsUpChoose';
+//import HandsUp from './src/HandsUp/HandsUpLists';
 
 //push
 import Constants from 'expo-constants';
@@ -35,18 +37,17 @@ Notifications.setNotificationHandler({
 });
 //push
 
-
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function Home(){
   return(
       <Tab.Navigator>
-        {/* <Tab.Screen name="Person" component={PersonList} /> */}
-        <Tab.Screen name="Commentbox" component={Commentbox} />
+        <Tab.Screen name="Person" component={PersonList} />
         <Tab.Screen name="Announcement" component={Announcement} />
         <Tab.Screen name="Product" component={ProductList} />
         {/* <Tab.Screen name="Click" component={Click} initialParams={{ count: 10 }}/> */}
+        <Tab.Screen name="HandsUp" component={HandsUp}/>
         <Tab.Screen name="Image" component={ImageUpload}/>
         <Tab.Screen name="SignOut" component={SignOut} />
       </Tab.Navigator>
@@ -110,11 +111,9 @@ function App() {
   const responseListener = useRef();
 
 
-
   useEffect(() => {
 
     registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
-
 
 
     // This listener is fired whenever a notification is received while the app is foregrounded
@@ -126,7 +125,6 @@ function App() {
     });
 
 
-
     // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
 
     responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
@@ -134,7 +132,6 @@ function App() {
       console.log(response);
 
     });
-
 
 
     return () => {
@@ -160,7 +157,6 @@ function App() {
     //push
     
     //push
-
 
     // <NavigationContainer>
     //   <Stack.Navigator>
@@ -204,7 +200,6 @@ async function sendPushNotification(expoPushToken) {
   };
 
 
-
   await fetch('https://exp.host/--/api/v2/push/send', {
 
     method: 'POST',
@@ -224,7 +219,6 @@ async function sendPushNotification(expoPushToken) {
   });
 
 }
-
 
 
 async function registerForPushNotificationsAsync() {
@@ -264,7 +258,6 @@ async function registerForPushNotificationsAsync() {
   }
 
 
-
   if (Platform.OS === 'android') {
 
     Notifications.setNotificationChannelAsync('default', {
@@ -282,9 +275,9 @@ async function registerForPushNotificationsAsync() {
   }
 
 
-
   return token;
 
 }
 
 export default App;
+
