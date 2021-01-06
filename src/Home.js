@@ -3,23 +3,14 @@ import {View, Text,Button, Platform  } from 'react-native';
 import { NavigationContainer, StackActions } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import PersonList from './src/person/PersonList';
-import ProductList from './src/product/ProductList';
-import ClassList from './src/class/ClassList';
-import SignIn from './src/account/SignIn';
-import SignOut from './src/account/SignOut';
-import SignUp from './src/account/SignUp';
-
-import FunctionList from './src/function/FunctionList';
-
-import Announcement from './src/announcement/Announcement';
-import Click from './Click';
+import PersonList from '../person/PersonList';
+import ProductList from '../product/ProductList';
+import SignIn from '../account/SignIn';
+import SignOut from '../account/SignOut';
+import SignUp from '../account/SignUp';
+// import Click from './Click';
 // import * as SecureStore from 'expo-secure-store';
-import ImageUpload from './src/storage/ImageUpload';
-//import HandsUp from './src/HandsUp/HandsUpWork';
-import HandsUp from './src/HandsUp/HandsUpChoose';
-//import HandsUp from './src/HandsUp/HandsUpLists';
-
+import ImageUpload from '../storage/ImageUpload';
 
 //push
 import Constants from 'expo-constants';
@@ -42,14 +33,19 @@ Notifications.setNotificationHandler({
 });
 //push
 
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function Home(){
   return(
-
-    ClassList()
-      
+      <Tab.Navigator>
+        <Tab.Screen name="Person" component={PersonList} />
+        <Tab.Screen name="Product" component={ProductList} />
+        {/* <Tab.Screen name="Click" component={Click} initialParams={{ count: 10 }}/> */}
+        <Tab.Screen name="Image" component={ImageUpload}/>
+        <Tab.Screen name="SignOut" component={SignOut} />
+      </Tab.Navigator>
   );
 }
 
@@ -96,10 +92,9 @@ function Push({route}){
 
 function close(){
   props.close();
-
 }
 
-function App() {
+function ClassList() {
 
   //push
   const [expoPushToken, setExpoPushToken] = useState('');
@@ -109,6 +104,8 @@ function App() {
   const notificationListener = useRef();
 
   const responseListener = useRef();
+
+
 
   useEffect(() => {
 
@@ -124,6 +121,8 @@ function App() {
 
     });
 
+
+
     // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
 
     responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
@@ -131,6 +130,7 @@ function App() {
       console.log(response);
 
     });
+
 
 
     return () => {
@@ -157,6 +157,7 @@ function App() {
     
     //push
 
+
     // <NavigationContainer>
     //   <Stack.Navigator>
     //     <Stack.Screen name="SignIn" component={SignIn} />
@@ -174,8 +175,6 @@ function App() {
         <Stack.Screen name="SignOut" component={SignOut} />
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Push" component={Push} initialParams={expoPushToken}/>
-        <Stack.Screen name="FunctionList" component={FunctionList} />
-
       </Stack.Navigator>
     </NavigationContainer>
     
@@ -201,6 +200,7 @@ async function sendPushNotification(expoPushToken) {
   };
 
 
+
   await fetch('https://exp.host/--/api/v2/push/send', {
 
     method: 'POST',
@@ -220,6 +220,7 @@ async function sendPushNotification(expoPushToken) {
   });
 
 }
+
 
 
 async function registerForPushNotificationsAsync() {
@@ -258,6 +259,8 @@ async function registerForPushNotificationsAsync() {
 
   }
 
+
+
   if (Platform.OS === 'android') {
 
     Notifications.setNotificationChannelAsync('default', {
@@ -275,10 +278,9 @@ async function registerForPushNotificationsAsync() {
   }
 
 
+
   return token;
 
 }
 
-export default App;
-
-
+export default ClassList;
