@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Button, TextInput, Modal } from 'react-native';
+import { Button, TextInput, Modal, StyleSheet } from 'react-native';
 import axios from 'axios';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { View } from 'native-base';
 
 
 export default function PersonAddEdit(props) {
@@ -78,14 +79,49 @@ export default function PersonAddEdit(props) {
     return (
 
         <Modal visible={props.modalVisible}>
-            <SafeAreaView>
-            <TextInput placeholder="姓名" value={name} onChangeText={text => setName(text)} />
-            <TextInput placeholder="城市" value={city} onChangeText={text => setCity(text)} />
-            <TextInput placeholder="年齡" value={age} onChangeText={text => setAge(text)} />
-            <Button onPress={update} title="確定" />
-            <Button onPress={props.hide} title="取消" />
-            </SafeAreaView>
+            
+            <View style={{
+                flex: 1,
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center'}}>
+                <View style={styles.modalView}>
+                    <TextInput placeholder="姓名" value={name} onChangeText={text => setName(text)} />
+                    <TextInput placeholder="城市" value={city} onChangeText={text => setCity(text)} />
+                    <TextInput placeholder="年齡" value={age} onChangeText={text => setAge(text)} />
+                    <Button onPress={update} title="確定" />
+                    <Button onPress={props.hide} title="取消" />
+                </View>
+            </View>
+            
         </Modal>
     );
 
 }
+
+
+const styles = StyleSheet.create({
+
+
+    modalView: {
+      margin: 20,
+      width:"90%",
+      backgroundColor: "white",
+      borderRadius: 20,
+      padding: 35,
+      alignItems: "center",
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5,
+      width: 250,
+      height: 200
+
+    },
+
+  
+  });
