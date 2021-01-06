@@ -42,9 +42,9 @@ const Tab = createBottomTabNavigator();
 function Home(){
   return(
       <Tab.Navigator>
-        <Tab.Screen name="Person" component={PersonList} />
-        <Tab.Screen name="Announcement" component={Announcement} />
+        {/* <Tab.Screen name="Person" component={PersonList} /> */}
         <Tab.Screen name="Commentbox" component={Commentbox} />
+        <Tab.Screen name="Announcement" component={Announcement} />
         <Tab.Screen name="Product" component={ProductList} />
         {/* <Tab.Screen name="Click" component={Click} initialParams={{ count: 10 }}/> */}
         <Tab.Screen name="Image" component={ImageUpload}/>
