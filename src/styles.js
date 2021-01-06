@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
-      padding: 35,
+      padding: 10,
       backgroundColor: '#ffd1a4',
       marginTop: StatusBar.currentHeight || 0,
       // marginLeft: 5,
@@ -35,10 +35,11 @@ const styles = StyleSheet.create({
       flex: 5,
       flexDirection: 'row',
       backgroundColor: '#ffffff',
-      padding: 8,
+      padding: 12,
       marginVertical: 8,
       // marginHorizontal: 16,
       alignContent: 'space-around',
+      borderRadius: 20,
     },
 
     title: {

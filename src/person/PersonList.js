@@ -102,7 +102,7 @@ export default function PersonList() {
 
   return (
     <View style={styles.container2}>
-      
+
       {/* <FlatList
         data={persons}
         renderItem={renderItem}

@@ -9,10 +9,17 @@ import ClassList from './src/class/ClassList';
 import SignIn from './src/account/SignIn';
 import SignOut from './src/account/SignOut';
 import SignUp from './src/account/SignUp';
+
 import FunctionList from './src/function/FunctionList';
+
+import Announcement from './src/announcement/Announcement';
 import Click from './Click';
 // import * as SecureStore from 'expo-secure-store';
 import ImageUpload from './src/storage/ImageUpload';
+//import HandsUp from './src/HandsUp/HandsUpWork';
+import HandsUp from './src/HandsUp/HandsUpChoose';
+//import HandsUp from './src/HandsUp/HandsUpLists';
+
 
 //push
 import Constants from 'expo-constants';
@@ -35,12 +42,12 @@ Notifications.setNotificationHandler({
 });
 //push
 
-
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function Home(){
   return(
+
     ClassList()
       
   );
@@ -89,6 +96,7 @@ function Push({route}){
 
 function close(){
   props.close();
+
 }
 
 function App() {
@@ -101,8 +109,6 @@ function App() {
   const notificationListener = useRef();
 
   const responseListener = useRef();
-
-
 
   useEffect(() => {
 
@@ -118,8 +124,6 @@ function App() {
 
     });
 
-
-
     // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
 
     responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
@@ -127,7 +131,6 @@ function App() {
       console.log(response);
 
     });
-
 
 
     return () => {
@@ -154,7 +157,6 @@ function App() {
     
     //push
 
-
     // <NavigationContainer>
     //   <Stack.Navigator>
     //     <Stack.Screen name="SignIn" component={SignIn} />
@@ -173,7 +175,7 @@ function App() {
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Push" component={Push} initialParams={expoPushToken}/>
         <Stack.Screen name="FunctionList" component={FunctionList} />
-        
+
       </Stack.Navigator>
     </NavigationContainer>
     
@@ -199,7 +201,6 @@ async function sendPushNotification(expoPushToken) {
   };
 
 
-
   await fetch('https://exp.host/--/api/v2/push/send', {
 
     method: 'POST',
@@ -219,7 +220,6 @@ async function sendPushNotification(expoPushToken) {
   });
 
 }
-
 
 
 async function registerForPushNotificationsAsync() {
@@ -258,8 +258,6 @@ async function registerForPushNotificationsAsync() {
 
   }
 
-
-
   if (Platform.OS === 'android') {
 
     Notifications.setNotificationChannelAsync('default', {
@@ -277,9 +275,10 @@ async function registerForPushNotificationsAsync() {
   }
 
 
-
   return token;
 
 }
 
 export default App;
+
+
