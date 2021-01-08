@@ -85,7 +85,7 @@ export default function Commentbox() {
 
     return (
       <Item
-        index={index}
+        index={index}rn
         item={item}
         onPress={() => update(item.id, index)}
         style={{ backgroundColor }}
@@ -95,8 +95,11 @@ export default function Commentbox() {
 
 
   return (
-
+    
     <View style={styles.container2}>
+
+      <Text style={styles.textAnnounce}>討論區</Text>
+
       <FlatList
         data={commentboxs}
         renderItem={renderItem}
@@ -156,7 +159,7 @@ const styles = StyleSheet.create({
     flex: 5,
     flexDirection: 'row',
     backgroundColor: '#ffffff',
-    padding: 12,
+    padding: 15,
     marginVertical: 8,
     // marginHorizontal: 16,
     alignContent: 'space-around',
@@ -165,6 +168,9 @@ const styles = StyleSheet.create({
 
   title: {
     fontSize: 24,
+    fontWeight:'400',
+    // justifyContent: 'center',
+    // alignItems: 'center',
   },
 
   inputStyle: {
@@ -192,6 +198,12 @@ const styles = StyleSheet.create({
     marginBottom: 20,
 
   },
+
+  textAnnounce:{
+    fontSize:30,
+    fontWeight:'bold',
+    marginBottom:20
+},
 
 
   

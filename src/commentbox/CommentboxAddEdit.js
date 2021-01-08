@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, TextInput, Modal, StyleSheet } from 'react-native';
+import { Button, TextInput, Modal, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import axios from 'axios';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { View } from 'native-base';
@@ -83,10 +83,29 @@ export default function CommentboxAddEdit(props) {
                 alignItems: 'center'}}>
 
                 <View style={styles.modalView}>
-                    <TextInput placeholder="標題" value={title} onChangeText={text => setTitle(text)} />
-                    <TextInput placeholder="內容" value={content} onChangeText={text => setContent(text)} />
-                    <Button onPress={update} title="確定" />
-                    <Button onPress={props.hide} title="取消" />
+                    <TextInput
+                        style={styles.textinput}
+                        placeholder="標題" value={title} onChangeText={text => setTitle(text)} />
+                    <TextInput
+                        style={styles.textinput}
+                        placeholder="內容" value={content} onChangeText={text => setContent(text)} />
+                    {/* <Button
+                    style={styles.button}onPress={update} title="確定" />
+                    <Button
+                    style={styles.button}onPress={props.hide} title="取消" /> */}
+
+                    <View style={styles.fixToText}>
+                        <TouchableOpacity
+                            onPress={update} >
+                            <Text style={styles.text}>確認 </Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            onPress={props.hide} >
+                            <Text style={styles.text}>取消 </Text>
+                        </TouchableOpacity>
+                    </View>
+
                 </View>
 
             </View>
@@ -102,10 +121,9 @@ const styles = StyleSheet.create({
 
     modalView: {
       margin: 20,
-      width:"90%",
       backgroundColor: "white",
       borderRadius: 20,
-      padding: 35,
+      padding: 50,
       alignItems: "center",
       shadowColor: "#000",
       shadowOffset: {
@@ -119,6 +137,25 @@ const styles = StyleSheet.create({
       height: 200
 
     },
+
+    text:{
+        fontSize: 18,
+        color: "grey",
+        fontWeight: "bold",
+        alignSelf: "center",
+        marginTop:8
+    },
+
+    fixToText: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+      },
+
+    textinput:{
+        backgroundColor: "#ffffff",
+        borderBottomColor: '#000000',
+        borderBottomWidth: 1,
+    }
 
     
 
