@@ -13,6 +13,9 @@ import SignUp from './src/account/SignUp';
 import FunctionList from './src/function/FunctionList';
 
 import Announcement from './src/announcement/Announcement';
+
+import Comment from './src/commentbox/Commentbox';
+
 import Click from './Click';
 // import * as SecureStore from 'expo-secure-store';
 import ImageUpload from './src/storage/ImageUpload';
@@ -175,6 +178,10 @@ function App() {
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Push" component={Push} initialParams={expoPushToken}/>
         <Stack.Screen name="FunctionList" component={FunctionList} />
+        <Stack.Screen name="Announcement" component={Announcement} />
+        <Stack.Screen name="Comment" component={Comment} />
+        
+        
 
       </Stack.Navigator>
     </NavigationContainer>
