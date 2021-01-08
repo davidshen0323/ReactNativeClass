@@ -2,15 +2,23 @@ import React, { useState, useEffect } from "react";
 import { FlatList, View, Text, TouchableOpacity } from "react-native";
 import { Icon, Fab } from "native-base";
 import axios from "axios";
-import PersonAddEdit from "./PersonAddEdit";
+import PersonAddEdit from "../person/PersonAddEdit";
 import styles from "../styles";
 import { set } from "react-native-reanimated";
 import { Avatar, Button, Card, Title, Paragraph } from "react-native-paper";
 import { Col, Row, Grid } from "react-native-easy-grid";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import ProductList from "../product/ProductList";
+import PersonList from "../person/PersonList";
+import ImageUpload from "../storage/ImageUpload";
+import SignOut from "../account/SignOut";
+import HandsUp from "../HandsUp/HandsUpChoose";
+import Announcement from '../announcement/Announcement';
+import Comment from '../commentbox/Commentbox';
 
 const LeftContent = (props) => <Avatar.Icon {...props} icon="folder" />;
 
-export default function PersonList() {
+export default function FunctionList() {
   const [persons, setPersons] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
@@ -70,7 +78,7 @@ export default function PersonList() {
     setPerson({
       Name: persons[index].fields.Name,
       City: persons[index].fields.City,
-      Age: persons[index].fields.Age,
+      Age: persons[index].fields.Ag,
     });
 
     setSelectedId(id);
@@ -100,63 +108,39 @@ export default function PersonList() {
     );
   };
 
-  return (
-    <View style={styles.container2}>
+  const Tab = createBottomTabNavigator();
 
-      {/* <FlatList
-        data={persons}
-        renderItem={renderItem}
-        keyExtractor={(item, index) => "" + index}
-      ></FlatList> */}
-      <Grid>
-        <Col>
-          <Card>
-            <Card.Title
-              title="Card Title"
-              subtitle="Card Subtitle"
-              left={LeftContent}
-            />
-            <Card.Content>
-              <Title>Card title</Title>
-              <Paragraph>Card content</Paragraph>
-            </Card.Content>
-            <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
-            <Card.Actions>
-              <Button>Cancel</Button>
-              <Button>Ok</Button>
-            </Card.Actions>
-          </Card>
-          <Card>
-            <Card.Title
-              title="Card Title"
-              subtitle="Card Subtitle"
-              left={LeftContent}
-            />
-            <Card.Content>
-              <Title>Card title</Title>
-              <Paragraph>Card content</Paragraph>
-            </Card.Content>
-            <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
-            <Card.Actions>
-              <Button>Cancel</Button>
-              <Button>Ok</Button>
-            </Card.Actions>
-          </Card>
-        </Col>
-        
-      </Grid>
+  return (
+    <Tab.Navigator>
+    <Tab.Screen name="HandsUp" component={HandsUp}/>
+    {/* <Tab.Screen name="Person" component={PersonList} /> */}
+    {/* <Tab.Screen name="Product" component={ProductList} /> */}
+    <Tab.Screen name="Announcement" component={Announcement} />
+    {/* <Tab.Screen name="Click" component={Click} initialParams={{ count: 10 }}/> */}
+    {/* <Tab.Screen name="Image" component={ImageUpload} /> */}
+    <Tab.Screen name="Comment" component={Comment} />
+    <Tab.Screen name="SignOut" component={SignOut} />
+    
+  </Tab.Navigator>
+    // <View style={styles.container2}>
+    //   {/* <FlatList
+    //     data={persons}
+    //     renderItem={renderItem}
+    //     keyExtractor={(item, index) => "" + index}
+    //   ></FlatList> */}
+
     
 
-      <Fab onPress={() => add()}>
-        <Icon ios="ios-add" android="md-add" />
-      </Fab>
-
-      <PersonAddEdit
-        modalVisible={modalVisible}
-        person={person}
-        id={selectedId}
-        hide={hide}
-      />
-    </View>
+    //   <Fab onPress={() => add()}>
+    //     <Icon ios="ios-add" android="md-add" />
+    //   </Fab>
+    //   {/* 
+    //   <PersonAddEdit
+    //     modalVisible={modalVisible}
+    //     person={person}
+    //     id={selectedId}
+    //     hide={hide}
+    //   /> */}
+    // </View>
   );
 }

@@ -56,6 +56,7 @@ export default function CommentboxAddEdit(props) {
 
                     setTitle("");
                     setContent("");
+                    // console.log(result.data);
                 
 
                 props.hide();
@@ -73,31 +74,29 @@ export default function CommentboxAddEdit(props) {
 
     return (
 
-        <Modal visible={props.modalVisible}
-               transparent={true}>
+        <Modal 
+            visible={props.modalVisible}
+            transparent={true}>
             
-            <View style={{
-                flex: 1,
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center'}}>
-
+            <View style={styles.centeredView2}>
                 <View style={styles.modalView}>
                     <TextInput
-                        style={styles.textinput}
-                        placeholder="標題" value={title} onChangeText={text => setTitle(text)} />
+                        style={styles.modalText}
+                        placeholder="標題" value={title} onChangeText={text => setTitle(text)}
+                        />
                     <TextInput
-                        style={styles.textinput}
+                        multiline
+                        style={styles.modalText}
                         placeholder="內容" value={content} onChangeText={text => setContent(text)} />
-                    {/* <Button
-                    style={styles.button}onPress={update} title="確定" />
-                    <Button
-                    style={styles.button}onPress={props.hide} title="取消" /> */}
+
+                    {/* <Text>您輸入的</Text> 
+                    <Text>標題: {title}</Text>
+                    <Text>內容: {content}</Text>  */}
 
                     <View style={styles.fixToText}>
                         <TouchableOpacity
                             onPress={update} >
-                            <Text style={styles.text}>確認 </Text>
+                            <Text style={styles.text}>確認  </Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity
@@ -105,7 +104,6 @@ export default function CommentboxAddEdit(props) {
                             <Text style={styles.text}>取消 </Text>
                         </TouchableOpacity>
                     </View>
-
                 </View>
 
             </View>
@@ -119,31 +117,71 @@ export default function CommentboxAddEdit(props) {
 const styles = StyleSheet.create({
 
 
-    modalView: {
-      margin: 20,
-      backgroundColor: "white",
-      borderRadius: 20,
-      padding: 50,
-      alignItems: "center",
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 2
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom:"95%"
       },
-      shadowOpacity: 0.25,
-      shadowRadius: 3.84,
-      elevation: 5,
-      width: 250,
-      height: 200
-
-    },
+      centeredView2: {
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center"
+        },
+      modalView: {
+        margin: 20,
+        width:"90%",
+        
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
+      },
+      openButton: {
+        backgroundColor: "#f8b62b",
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
+        marginTop:10,
+        width:160,
+      },
+      textStyle: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center"
+      },
+      modalText: {
+        borderWidth: 1,
+        borderColor: '#777',
+        padding: 8,
+        margin: 10,
+        width: 200,
+        marginBottom: 20,
+        textAlign: "center",
+        color:"#000",
+        
+      },
+      textAnnounce:{
+          fontSize:30,
+          fontWeight:'bold',
+          marginBottom:20
+      },
 
     text:{
         fontSize: 18,
         color: "grey",
         fontWeight: "bold",
         alignSelf: "center",
-        marginTop:8
+        marginTop:8,
+        textAlign: "center"
     },
 
     fixToText: {

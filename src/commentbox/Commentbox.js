@@ -75,8 +75,10 @@ export default function Commentbox() {
     <TouchableOpacity
       onPress={onPress} style={[styles.item, style]}>
       <Text style={styles.title}>{item.fields.Title}</Text>
-      <Text>{item.fields.Content}</Text>
+      <Text style={styles.itemtext}>{item.fields.Content}</Text>
+      
     </TouchableOpacity>
+    
   );
 
   const renderItem = ({ item, index }) => {
@@ -98,7 +100,7 @@ export default function Commentbox() {
     
     <View style={styles.container2}>
 
-      <Text style={styles.textAnnounce}>討論區</Text>
+      <Text style={styles.textCommentbox}>討論區</Text>
 
       <FlatList
         data={commentboxs}
@@ -145,7 +147,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     padding: 10,
-    backgroundColor: '#ffd1a4',
+    backgroundColor: '#ffecd9',
     marginTop: StatusBar.currentHeight || 0,
     // marginLeft: 5,
     // marginRight:5,
@@ -158,19 +160,26 @@ const styles = StyleSheet.create({
   item: {
     flex: 5,
     flexDirection: 'row',
-    backgroundColor: '#ffffff',
+    backgroundColor: '#f8b62b',
     padding: 15,
     marginVertical: 8,
     // marginHorizontal: 16,
     alignContent: 'space-around',
     borderRadius: 20,
+    flexWrap: 'wrap'
   },
 
   title: {
-    fontSize: 24,
-    fontWeight:'400',
-    // justifyContent: 'center',
-    // alignItems: 'center',
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "white",
+    textAlign: "center",
+  },
+
+  itemtext:{
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
   },
 
   inputStyle: {
@@ -199,7 +208,7 @@ const styles = StyleSheet.create({
 
   },
 
-  textAnnounce:{
+  textCommentbox:{
     fontSize:30,
     fontWeight:'bold',
     marginBottom:20

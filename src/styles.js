@@ -72,6 +72,15 @@ const styles = StyleSheet.create({
 
     },
 
+    classlist: {
+      width: 180,
+      height: 230,
+      marginTop: 5,
+      marginBottom: 5,
+      marginLeft:5,
+      marginRight:5,
+      textAlign: 'center',
+    }
     
 
   });
