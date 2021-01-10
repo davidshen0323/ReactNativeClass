@@ -1,12 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import AnnouncementView from './AnnouncementView';
-import { FlatList, Alert, Modal, StyleSheet, Text, TouchableHighlight, View, TouchableOpacity } from "react-native";
+import { FlatList, Alert, Modal, StyleSheet, Text, TouchableHighlight, View, TouchableOpacity, RefreshControl } from "react-native";
+import { Icon, Fab } from "native-base";
+import AnnouncementAdd from './AnnouncementAdd';
 
 export default function Announcement() {
 
     const [announcements, setAnnouncements] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
+    const [modalVisible2, setModalVisible2] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
     const [announcement, setAnnouncement] = useState({
       Title:"",
@@ -31,6 +34,24 @@ export default function Announcement() {
   
     },[modalVisible]);
 
+    function add() {
+      setAnnouncement({
+        Title: "",
+        Content: "",
+      });
+  
+      setSelectedId("");
+      setModalVisible2(true);
+    }
+    function hide2() {
+      setAnnouncement({
+        Title: "",
+        Content: "",
+      });
+      setSelectedId("");
+      setModalVisible2(false);
+      
+    }
 
     function hide(){
       setAnnouncement({
@@ -53,6 +74,7 @@ export default function Announcement() {
     }
   
   
+    
     const Item = ({ index, item, onPress, style }) => (
       
       <TouchableOpacity onPress={onPress} style={ styles.openButton}>
@@ -81,39 +103,18 @@ export default function Announcement() {
 
   return (
     
-    <View style={styles.centeredView}>  
-    {/* <Modal
-      animationType="slide"
-      transparent={true}
-      visible={modalVisible}
-      onRequestClose={() => {
-        Alert.alert("Modal has been closed.");
-      }}
-    >
-      <View style={styles.centeredView2}>
-        <View style={styles.modalView}>
-          <Text style={styles.modalText}>1234444</Text>
-
-          <TouchableHighlight
-            style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-            onPress={() => {
-              setModalVisible(!modalVisible);
-            }}
-          >
-            <Text style={styles.textStyle}>關閉公告</Text>
-          </TouchableHighlight>
-        </View>
-      </View>
-    </Modal> */}
-    
+    <View style={styles.centeredView}>   
       <Text style={styles.textAnnounce}>公佈欄</Text>
         <FlatList 
             data={announcements} 
             renderItem = {renderItem}
-            keyExtractor={(item, index) => ""+index}
-            >
+            keyExtractor={(item, index) => ""+index}>
         </FlatList>
         <AnnouncementView modalVisible = {modalVisible} announcement = {announcement} id={selectedId} hide={hide}/> 
+        <Fab style={styles.fab} onPress={() => add()}>
+          <Icon ios="ios-add" android="md-add" />
+        </Fab>
+      <AnnouncementAdd modalVisible2 = {modalVisible2} update={update} hide2={hide2}/>
     </View>
 
 
@@ -173,5 +174,12 @@ const styles = StyleSheet.create({
         fontSize:30,
         fontWeight:'bold',
         marginBottom:20
+    },
+    fab: {
+      position: 'absolute',
+      margin: 16,
+      right: 0,
+      bottom: 0,
+      backgroundColor:"#f8b62b"
     },
   });
