@@ -12,10 +12,13 @@ import ProductList from "../product/ProductList";
 import PersonList from "../person/PersonList";
 import ImageUpload from "../storage/ImageUpload";
 import SignOut from "../account/SignOut";
-import HandsUp from "../HandsUp/HandsUpChoose";
+
+import HandsUp from "../HandsUp/HandsUpWork";
+
 import Announcement from '../announcement/Announcement';
 import Comment from '../commentbox/Commentbox';
 import csid from "../classcontext/ClassContext";
+
 
 
 const LeftContent = (props) => <Avatar.Icon {...props} icon="folder" />;

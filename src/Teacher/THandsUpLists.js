@@ -84,8 +84,8 @@ export default class ExampleThree extends Component {
               </Table>
           
             </ScrollView>
-            <View style={styles.container2}>
-              <View style={styles.fixToText}>
+            {/* <View style={styles.container2}>
+                  <View style={styles.fixToText}>
               <TouchableOpacity style={styles.button}>
                 <Text style={styles.buttonText}>舉手驗收</Text>
               </TouchableOpacity>
@@ -96,7 +96,7 @@ export default class ExampleThree extends Component {
                 <Text style={styles.buttonText}>取消舉手</Text>
               </TouchableOpacity>
             </View>
-          </View>
+          </View> */}
           </View>
         </ScrollView>
         

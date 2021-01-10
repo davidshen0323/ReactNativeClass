@@ -1,19 +1,19 @@
 import * as React from 'react';
 import { View, StyleSheet, Dimensions,Text,ImageBackground } from 'react-native';
 import { TabView, SceneMap } from 'react-native-tab-view';
-import HandsUpLists from './HandsUpLists';
-import HandsUpFinish from './HandsUpFinish';
+import THandsUpLists from './THandsUpLists';
+import THandsUpFinish from './THandsUpFinish';
  
 const FirstRoute = () => (
   // <View style={[styles.scene, { backgroundColor: '#ff4081' }]}>
   //     <Text>hehe</Text>
   // </View>
 
-      <HandsUpLists/>
+      <THandsUpLists/>
 );
  
 const SecondRoute = () => (
-  <HandsUpFinish/>
+      <THandsUpFinish/>
 );
  
 const initialLayout = { width: Dimensions.get('window').width };
