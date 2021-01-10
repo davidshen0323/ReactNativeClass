@@ -1,145 +1,203 @@
 import React, {useState, useEffect} from 'react';
-import {FlatList, View, Text, StatusBar,StyleSheet, Button, YellowBox,ImageBackground} from 'react-native';
-import {Icon, Fab} from 'native-base';
-import * as firebase from 'firebase';
-import firestore from 'firebase/firestore'
-//import ProductAdd from './ProductAdd';
-import { concat } from 'react-native-reanimated';
-import * as FirebaseCore from 'expo-firebase-core';
+import { FlatList, View, Text, TouchableOpacity, StatusBar, StyleSheet,ImageBackground } from 'react-native';
+import { Icon, Fab } from "native-base";
+import axios from "axios";
+//import CommentboxAddEdit from "./CommentboxAddEdit";
+// import styles from "../styles";
+import { Avatar} from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
 
-const bgimage = {}
-
-// const config = {
-
-//   apiKey: "AIzaSyDgwhPwhLT6NLFbFjLUirjGocTGxazIBCU",
-//   authDomain: "product-3c000.firebaseapp.com",
-//   databaseURL: "https://product-3c000.firebaseio.com",
-//   projectId: "product-3c000",
-//   storageBucket: "product-3c000.appspot.com",
-//   messagingSenderId: "208041875505",
-//   appId: "1:208041875505:web:4d466843a9c0d1dd1add10",
-//   measurementId: "G-JRY61NGHWR"
-
-// };
-
-if (!firebase.apps.length) {
-  firebase.initializeApp(FirebaseCore.DEFAULT_WEB_APP_OPTIONS);
-}
-
-const db = firebase.firestore();
-
-const renderItem = ({ item, index }) => (
-  <View style={styles.item}>
-  <Text> {index} </Text>
-  <Text style={styles.title}>{item.desc}</Text>
-  <Text>{item.price}</Text>
-  </View>
-);
+const LeftContent = (props) => <Avatar.Icon {...props} icon="folder" />;
 
 export default function HandsUpWork() {
- 
 
-  const [products, setProducts] = useState([]);
-  const [modalVisible, setModalVisible] = useState(false);
+   const [works, setWorks] = useState([]);
+   const [modalVisible, setModalVisible] = useState(false);
+   const [selectedId, setSelectedId] = useState(null);
+   const [newworks, setNewworks] = useState({
+    Title:"",
+  });
+   
 
-  function readDate(){
-    const newProducts=[]; 
-    db.collection("product").get().then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        const newProduct = {
-          desc:doc.data().desc,
-          price:doc.data().price
-        }
-        newProducts.push(newProduct);
-      });
-      setProducts(newProducts);
-    })
-  }
+  useEffect(() => {
+    async function fetchData() {
+      const axios_config = {
+        headers: { Authorization: "Bearer keys9gKjERVN7YgGk" },
+      };
+      const url =
+      "https://api.airtable.com/v0/appCvAxAr9rxmTWh4/WorkList?maxRecords=50&view=Grid%20view";
+      const result = await axios.get(url, axios_config);
+      //console.log(result);
+      setWorks(result.data.records);
+    }
 
-  useEffect(readDate,[modalVisible])
+    fetchData();
+  }, [modalVisible]);
 
-  function hide(){
+    
+  function hide() {
+    setNewworks({
+        Title:"",
+    });
+    setSelectedId("");
     setModalVisible(false);
   }
 
-  function update(newProduct){
-    setProducts(oldProducts=>[...oldProducts, newProduct]);
-    setModalVisible(false);
+  function close() {
+    setNewworks({
+        Title:"",
+        Content: "",
+    });
   }
 
-  function colse(){
-    setModalVisible(false);
+  function add() {
+    setNewworks({
+        Title:"",
+        Content: "",
+    });
+
+    setSelectedId("");
+    setModalVisible(true);
   }
 
-  const styles = StyleSheet.create({
-    backgroundImage: {
-        flex: 1,
-     },})
+  function update(id, index) {
+    setNewworks({
+      Title: works[index].fields.Title,
+    });
 
- return (
-  <ImageBackground source={require('../img/bg.jpg')} style={styles.backgroundImage} >
-   <View style={styles.container}>
-   <FlatList 
-    data={products} 
-    renderItem = {renderItem}
-    keyExtractor={(item, index) => ""+index}
-    >
-   </FlatList>
-   <Fab onPress={()=>setModalVisible(true)}>
-     <Icon ios='ios-add' android="md-add"/>
-   </Fab>
-   {/* <Button title="新增" onPress={()=>setModalVisible(true)}/> */}
-   {/* <ProductAdd modalVisible = {modalVisible} colse={colse} update={update} hide={hide}/> */}
-   </View>
-   </ImageBackground>
- );
+    setSelectedId(id);
+    setModalVisible(true);
+  }
+
+  const Item = ({ index, item, onPress, style }) => (
+    <TouchableOpacity onPress={() => navigation.navigate("HandsUpChoose")} style={[styles.item, style]}>
+      <Text style={styles.title}>{item.fields.Title}</Text>
+    </TouchableOpacity>
+  );
+
+  const renderItem = ({ item, index }) => {
+    // const backgroundColor =
+    //   item.id === selectedId ? "#fffffff" : styles.item.backgroundColor;
+
+    return (
+      <Item
+        index={index}
+        item={item}
+        onPress={() => update(item.id, index)}
+        // style={{ backgroundColor }}
+        style={styles.item}
+      />
+    );
+  };
+
+  const navigation = useNavigation();
+
+  return (
+<ImageBackground source={require('../img/bg.jpg')} style={styles.backgroundImage} >
+    <View style={styles.container2}>
+      <FlatList
+        data={works}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => "" + index}
+        // onPress={() => navigation.navigate("HandsUpChoose")}
+        />
+  
+      {/* <Fab onPress={() => add()}>
+        <Icon ios="ios-add" android="md-add" />
+      </Fab> */}
+
+      {/* <CommentboxAddEdit
+        modalVisible={modalVisible}
+        commentbox={commentbox}
+        id={selectedId}
+        hide={hide}
+      /> */}
+      
+    </View>
+</ImageBackground>
+  );
 
 }
 
+
+
 const styles = StyleSheet.create({
-     modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5
-  },
-  centeredView: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 22
-      },
+
   container: {
-    backgroundColor: '#ffd1a4',
     flex: 1,
-    //margin: 'auto',
-    flexDirection: 'row',
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    padding: 35,
+    //backgroundColor: '#ffd1a4',
     marginTop: StatusBar.currentHeight || 0,
+    alignItems: "center",
 
   },
+
+  container2: {
+    flex: 1,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    padding: 10,
+    // backgroundColor: '#ffd1a4',
+    marginTop: StatusBar.currentHeight || 0,
+    // marginLeft: 5,
+    // marginRight:5,
+    // marginTop: 10,
+    alignItems: "center",
+
+  },
+
 
   item: {
+    // flex: 5,
+    // flexDirection: 'row',
+    // backgroundColor: '#f8b62b',
+    // padding: 12,
+    // marginVertical: 8,
+    // // marginHorizontal: 16,
+    // borderRadius: 20,
+    // width:100,
     flex: 1,
-    flexDirection: 'row',
-    backgroundColor: '#ffffff',
-    padding: 8,
+    display:'flex',
+    flexDirection: 'column',
+    backgroundColor: '#f8b62b',
+    padding: 12,
     marginVertical: 8,
     marginHorizontal: 16,
-
+    borderRadius: 20,
+    width:300,
+    
   },
 
   title: {
     fontSize: 24,
+    alignItems: "center",
+    textAlign:"center",
   },
 
-});
+  inputStyle: {
+    width: '100%',
+    marginBottom: 15,
+    paddingBottom: 15,
+    alignSelf: "center",
+    borderColor: "#ccc",
+    borderBottomWidth: 1
+  },
 
+
+  logo: {
+
+    width: 305,
+    height: 159,
+    marginBottom: 20,
+
+  },
+  backgroundImage: {
+    flex: 1,
+  },
+  
+
+});

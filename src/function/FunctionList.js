@@ -12,7 +12,7 @@ import ProductList from "../product/ProductList";
 import PersonList from "../person/PersonList";
 import ImageUpload from "../storage/ImageUpload";
 import SignOut from "../account/SignOut";
-import HandsUp from "../HandsUp/HandsUpChoose";
+import HandsUp from "../HandsUp/HandsUpWork";
 
 const LeftContent = (props) => <Avatar.Icon {...props} icon="folder" />;
 
