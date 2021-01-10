@@ -81,11 +81,7 @@ export default function AnnouncementView(props) {
                 <View style={styles.modalView}>
                 <TextInput placeholder="標題" style={styles.modalText} value={title} onChangeText={text => setTitle(text)} />
                 <TextInput placeholder="內容" style={styles.modalText} value={content} onChangeText={text => setContent(text)} />
-                
-                <TouchableHighlight
-                style={styles.openButton}
-                onPress={props.hide}   
-                >
+                <TouchableHighlight style={styles.openButton} onPress={props.hide}>
                     <Text style={styles.textStyle}>關閉公告</Text>
                 </TouchableHighlight>
                 {/* <Button style={styles.openButton} onPress={update} title="確定" /> */}
