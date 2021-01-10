@@ -106,25 +106,169 @@ export default function ClassList() {
 
   return (
     <View style={styles.container2}>
-      <FlatList
-        data={cs}
-        renderItem={renderItem}
-        keyExtractor={(item, index) => "" + index}
-      ></FlatList>
+//       <FlatList
+//         data={cs}
+//         renderItem={renderItem}
+//         keyExtractor={(item, index) => "" + index}
+//       ></FlatList>
 
 
       
 
-      <Fab onPress={() => add()}>
-        <Icon ios="ios-add" android="md-add" />
-      </Fab>
+//       <Fab onPress={() => add()}>
+//         <Icon ios="ios-add" android="md-add" />
+//       </Fab>
 
-      <PersonAddEdit
-        modalVisible={modalVisible}
-        person={classes}
-        id={selectedId}
-        hide={hide}
-      />
+//       <PersonAddEdit
+//         modalVisible={modalVisible}
+//         person={classes}
+//         id={selectedId}
+//         hide={hide}
+//       />
+    
+    
+    
+<Grid>
+        <Col>
+          <Row>
+            <Card
+              style={styles.classlist}
+              onPress={() => navigation.navigate("FunctionList")}
+            >
+              {/* <Card.Title
+              title="Card Title"
+              subtitle="Card Subtitle"
+              left={LeftContent}
+            /> */}
+              <Card.Content>
+                <Title>行動裝置程式設計</Title>
+                <Paragraph>吳濟聰老師</Paragraph>
+              </Card.Content>
+              {/* <Card.Cover source={{ uri: "https://picsum.photos/700" }} /> */}
+              {/* <Card.Actions>
+              <Button>Cancel</Button>
+              <Button>Ok</Button>
+            </Card.Actions> */}
+            </Card>
+          </Row>
+          <Row>
+            <Card
+              style={styles.classlist}
+              onPress={() => navigation.navigate("FunctionList")}
+            >
+              {/* <Card.Title
+              title="Card Title"
+              subtitle="Card Subtitle"
+              left={LeftContent}
+            /> */}
+              <Card.Content>
+                <Title>資料結構</Title>
+                <Paragraph>蔡幸蓁老師</Paragraph>
+              </Card.Content>
+              {/* <Card.Cover source={{ uri: "https://picsum.photos/700" }} /> */}
+              {/* <Card.Actions>
+              <Button>Cancel</Button>
+              <Button>Ok</Button>
+            </Card.Actions> */}
+            </Card>
+          </Row>
+        </Col>
+        <Col>
+          <Row>
+            <Card
+              style={styles.classlist}
+              onPress={() => navigation.navigate("FunctionList")}
+            >
+              {/* <Card.Title
+              title="Card Title"
+              subtitle="Card Subtitle"
+              left={LeftContent}
+            /> */}
+              <Card.Content>
+                <Title>UI/UX設計</Title>
+                <Paragraph>吳濟聰老師</Paragraph>
+              </Card.Content>
+              {/* <Card.Cover source={{ uri: "https://picsum.photos/700" }} /> */}
+              {/* <Card.Actions>
+              <Button>Cancel</Button>
+              <Button>Ok</Button>
+            </Card.Actions> */}
+            </Card>
+          </Row>
+          <Row>
+            <Card
+              style={styles.classlist}
+              onPress={() => navigation.navigate("FunctionList")}
+            >
+              {/* <Card.Title
+              title="Card Title"
+              subtitle="Card Subtitle"
+              left={LeftContent}
+            /> */}
+              <Card.Content>
+                <Title>系統分析</Title>
+                <Paragraph>吳濟聰老師</Paragraph>
+              </Card.Content>
+              {/* <Card.Cover source={{ uri: "https://picsum.photos/700" }} /> */}
+              {/* <Card.Actions>
+              <Button>Cancel</Button>
+              <Button>Ok</Button>
+            </Card.Actions> */}
+            </Card>
+
+            {/* <Card>
+            <Card.Title
+            title="Card Title"
+            subtitle="Card Subtitle"
+            left={LeftContent}
+            />
+            <Card.Content>
+            <Title>Card title</Title>
+            <Paragraph>Card content</Paragraph>
+            </Card.Content>
+            <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
+            <Card.Actions>
+            <Button>Cancel</Button>
+            <Button>Ok</Button>
+            </Card.Actions>
+            </Card>
+            </Col>
+            <Col>
+            <Card>
+            <Card.Title
+            title="Card Title"
+            subtitle="Card Subtitle"
+            left={LeftContent}
+            />
+            <Card.Content>
+            <Title>Card title</Title>
+            <Paragraph>Card content</Paragraph>
+            </Card.Content>
+            <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
+            <Card.Actions>
+            <Button>Cancel</Button>
+            <Button>Ok</Button>
+            </Card.Actions>
+            </Card>
+            <Card>
+            <Card.Title
+            title="Card Title"
+            subtitle="Card Subtitle"
+            left={LeftContent}
+            />
+            <Card.Content>
+            <Title>Card title</Title>
+            <Paragraph>Card content</Paragraph>
+            </Card.Content>
+            <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
+            <Card.Actions>
+            <Button>Cancel</Button>
+            <Button>Ok</Button>
+            </Card.Actions>
+          </Card> */}
+          </Row>
+        </Col>
+      </Grid>
     </View>
   );
 }
