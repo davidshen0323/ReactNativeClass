@@ -25,7 +25,7 @@ function CommentboxList() {
         headers: { Authorization: "Bearer keys9gKjERVN7YgGk" },
       };
       const url =
-        "https://api.airtable.com/v0/appCvAxAr9rxmTWh4/CommentboxList?maxRecords=3&view=Grid%20view";
+        "https://api.airtable.com/v0/appCvAxAr9rxmTWh4/CommentboxList?maxRecords=100&view=Grid%20view";
       const result = await axios.get(url, axios_config);
       //console.log(result);
       setCommentboxs(result.data.records);
@@ -41,7 +41,7 @@ function CommentboxList() {
 
   const ImagesExample = () => (
     <Image source = {{uri:'https://image.flaticon.com/icons/svg/1915/1915932.svg'}}
-    style = {{ width: 200, height: 200 }}
+    style = {{ width: 400, height: 400 }}
     />
  )
 
@@ -50,8 +50,9 @@ function CommentboxList() {
     
     <View style={styles.container2}>
 
-      <Text style={styles.textCommentbox}>討論區22222</Text>
       <ImagesExample />
+      <Text style={styles.textCommentbox}>討論區22222</Text>
+      
       
      
 

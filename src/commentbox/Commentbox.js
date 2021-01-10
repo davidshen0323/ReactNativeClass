@@ -114,13 +114,6 @@ export default function Commentbox() {
   };
 
 
-//   const ImagesExample = () => (
-//     <Image source = {{uri:'https://image.flaticon.com/icons/svg/1915/1915932.svg'}}
-//     style = {{ width: 10, height: 10 }}
-//     />
-//  )
-
-
   return (
     
     <View style={styles.container2}>
