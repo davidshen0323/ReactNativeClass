@@ -1,5 +1,8 @@
-[0106/093520.202:ERROR:directory_reader_win.cc(43)] FindFirstFile: �t�Χ䤣����w�����|�C (0x3)
-[0110/132142.681:ERROR:directory_reader_win.cc(43)] FindFirstFile: �t�Χ䤣����w�����|�C (0x3)
-[0110/145334.071:ERROR:process_info.cc(329)] VirtualQueryEx: �s���Q�ڡC (0x5)
-[0110/145334.071:ERROR:process_info.cc(556)] ReadMemoryInfo failed
-[0110/145334.071:ERROR:scoped_process_suspend.cc(40)] NtResumeProcess: ���զs���{�����B�z�{�ǡC (0xc000010a)
+
+[1230/095324.030:ERROR:directory_reader_win.cc(43)] FindFirstFile: 嚙緣嚙諄找不嚙踝蕭嚙踝蕭w嚙踝蕭嚙踝蕭嚙罵嚙瘠 (0x3)
+[0104/141014.401:ERROR:directory_reader_win.cc(43)] FindFirstFile: 嚙緣嚙諄找不嚙踝蕭嚙踝蕭w嚙踝蕭嚙踝蕭嚙罵嚙瘠 (0x3)
+[0104/160725.953:ERROR:directory_reader_win.cc(43)] FindFirstFile: 嚙緣嚙諄找不嚙踝蕭嚙踝蕭w嚙踝蕭嚙踝蕭嚙罵嚙瘠 (0x3)
+[0106/094208.446:ERROR:directory_reader_win.cc(43)] FindFirstFile: 嚙緣嚙諄找不嚙踝蕭嚙踝蕭w嚙踝蕭嚙踝蕭嚙罵嚙瘠 (0x3)
+[0106/093520.202:ERROR:directory_reader_win.cc(43)] FindFirstFile: 系統找不到指定的路徑。 (0x3)
+
+

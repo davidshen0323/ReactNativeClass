@@ -57,7 +57,7 @@ export default function AnnouncementView(props) {
                     setContent("");
                 console.log(result.data.id);
 
-                props.hide;
+                props.hide();
             }
 
             catch (e) {

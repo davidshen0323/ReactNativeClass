@@ -16,6 +16,8 @@ import Announcement from './src/announcement/Announcement';
 
 import Comment from './src/commentbox/Commentbox';
 
+import CommentboxList from './src/commentbox/CommentboxList';
+
 import Click from './Click';
 // import * as SecureStore from 'expo-secure-store';
 import ImageUpload from './src/storage/ImageUpload';
@@ -180,6 +182,7 @@ function App() {
         <Stack.Screen name="FunctionList" component={FunctionList} />
         <Stack.Screen name="Announcement" component={Announcement} />
         <Stack.Screen name="Comment" component={Comment} />
+        <Stack.Screen name="CommentboxList" component={CommentboxList} />
         
         
 
