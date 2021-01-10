@@ -79,8 +79,9 @@ export default function AnnouncementView(props) {
               }}>
             <View style={styles.centeredView2}>
                 <View style={styles.modalView}>
-                <TextInput editable={false} style={styles.modalText} value={title} onChangeText={text => setTitle(text)} />
-                <TextInput editable={false} style={styles.modalText} value={content} onChangeText={text => setContent(text)} />
+                <TextInput placeholder="標題" style={styles.modalText} value={title} onChangeText={text => setTitle(text)} />
+                <TextInput placeholder="內容" style={styles.modalText} value={content} onChangeText={text => setContent(text)} />
+                
                 <TouchableHighlight
                 style={styles.openButton}
                 onPress={props.hide}   
