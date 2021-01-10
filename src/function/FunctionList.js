@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { FlatList, View, Text, TouchableOpacity } from "react-native";
 import { Icon, Fab } from "native-base";
 import axios from "axios";
@@ -12,7 +12,14 @@ import ProductList from "../product/ProductList";
 import PersonList from "../person/PersonList";
 import ImageUpload from "../storage/ImageUpload";
 import SignOut from "../account/SignOut";
+
 import HandsUp from "../HandsUp/HandsUpWork";
+
+import Announcement from '../announcement/Announcement';
+import Comment from '../commentbox/Commentbox';
+import csid from "../classcontext/ClassContext";
+
+
 
 const LeftContent = (props) => <Avatar.Icon {...props} icon="folder" />;
 
@@ -26,6 +33,9 @@ export default function FunctionList() {
     Age: 0,
   }); //temp variable for edit
 
+
+
+
   useEffect(() => {
     async function fetchData() {
       const axios_config = {
@@ -37,6 +47,8 @@ export default function FunctionList() {
       //console.log(result);
       setPersons(result.data.records);
     }
+
+
 
     fetchData();
   }, [modalVisible]);
@@ -111,10 +123,12 @@ export default function FunctionList() {
   return (
     <Tab.Navigator>
     <Tab.Screen name="HandsUp" component={HandsUp}/>
-    <Tab.Screen name="Person" component={PersonList} />
-    <Tab.Screen name="Product" component={ProductList} />
+    {/* <Tab.Screen name="Person" component={PersonList} /> */}
+    {/* <Tab.Screen name="Product" component={ProductList} /> */}
+    <Tab.Screen name="Announcement" component={Announcement} />
     {/* <Tab.Screen name="Click" component={Click} initialParams={{ count: 10 }}/> */}
-    <Tab.Screen name="Image" component={ImageUpload} />
+    {/* <Tab.Screen name="Image" component={ImageUpload} /> */}
+    <Tab.Screen name="Comment" component={Comment} />
     <Tab.Screen name="SignOut" component={SignOut} />
     
   </Tab.Navigator>

@@ -13,13 +13,13 @@ import { useNavigation } from "@react-navigation/native";
 const LeftContent = (props) => <Avatar.Icon {...props} icon="folder" />;
 
 export default function ClassList() {
-  const [persons, setPersons] = useState([]);
+  const [cs, setCs] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
-  const [person, setPerson] = useState({
-    Name: "",
-    City: "",
-    Age: 0,
+  const [classes, setClasses] = useState({
+    Title: "",
+    Csid: "",
+    Teacher: "",
   }); //temp variable for edit
 
   useEffect(() => {
@@ -28,40 +28,40 @@ export default function ClassList() {
         headers: { Authorization: "Bearer keys9gKjERVN7YgGk" },
       };
       const url =
-        "https://api.airtable.com/v0/appCvAxAr9rxmTWh4/Student?maxRecords=30&view=Grid%20view";
+      "https://api.airtable.com/v0/appCvAxAr9rxmTWh4/ClassList?maxRecords=20&view=Grid%20view" ;
       const result = await axios.get(url, axios_config);
       //console.log(result);
-      setPersons(result.data.records);
+      setCs(result.data.records);
     }
 
     fetchData();
   }, [modalVisible]);
 
   function hide() {
-    setPerson({
-      Name: "",
-      City: "",
-      Age: 0,
+    setClasses({
+      Title: "",
+      Csid: "",
+      Teacher: "",
     });
     setSelectedId("");
     setModalVisible(false);
   }
 
   function close() {
-    setPerson({
-      Name: "",
-      City: "",
-      Age: 0,
+    setClasses({
+      Title: "",
+      Csid: "",
+      Teacher: "",
     });
 
     // props.hide();
   }
 
   function add() {
-    setPerson({
-      Name: "",
-      City: "",
-      Age: 0,
+    setClasses({
+      Title: "",
+      Csid: "",
+      Teacher: "",
     });
 
     setSelectedId("");
@@ -69,10 +69,10 @@ export default function ClassList() {
   }
 
   function update(id, index) {
-    setPerson({
-      Name: persons[index].fields.Name,
-      City: persons[index].fields.City,
-      Age: persons[index].fields.Ag,
+    setClasses({
+      Title: cs[index].fields.Title,
+      Csid: cs[index].fields.Csid,
+      Teacher: cs[index].fields.Teacher,
     });
 
     setSelectedId(id);
@@ -82,9 +82,9 @@ export default function ClassList() {
   const Item = ({ index, item, onPress, style }) => (
     <TouchableOpacity onPress={onPress} style={[styles.item, style]}>
       <Text>{index}</Text>
-      <Text style={styles.title}>{item.fields.Name}</Text>
-      <Text>{item.fields.City},</Text>
-      <Text>{item.fields.Age}</Text>
+      <Text style={styles.title}>{item.fields.Title}</Text>
+      <Text>{item.fields.Csid},</Text>
+      <Text>{item.fields.Teacher}</Text>
     </TouchableOpacity>
   );
 
@@ -106,92 +106,169 @@ export default function ClassList() {
 
   return (
     <View style={styles.container2}>
-      {/* <FlatList
-        data={persons}
-        renderItem={renderItem}
-        keyExtractor={(item, index) => "" + index}
-      ></FlatList> */}
-      <Grid>
+//       <FlatList
+//         data={cs}
+//         renderItem={renderItem}
+//         keyExtractor={(item, index) => "" + index}
+//       ></FlatList>
+
+
+      
+
+//       <Fab onPress={() => add()}>
+//         <Icon ios="ios-add" android="md-add" />
+//       </Fab>
+
+//       <PersonAddEdit
+//         modalVisible={modalVisible}
+//         person={classes}
+//         id={selectedId}
+//         hide={hide}
+//       />
+    
+    
+    
+<Grid>
         <Col>
-          <Card onPress={() => navigation.navigate("FunctionList")}>
-            <Card.Title
+          <Row>
+            <Card
+              style={styles.classlist}
+              onPress={() => navigation.navigate("FunctionList")}
+            >
+              {/* <Card.Title
               title="Card Title"
               subtitle="Card Subtitle"
               left={LeftContent}
-            />
-            <Card.Content>
-              <Title>Card title</Title>
-              <Paragraph>Card content</Paragraph>
-            </Card.Content>
-            <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
-            <Card.Actions>
+            /> */}
+              <Card.Content>
+                <Title>行動裝置程式設計</Title>
+                <Paragraph>吳濟聰老師</Paragraph>
+              </Card.Content>
+              {/* <Card.Cover source={{ uri: "https://picsum.photos/700" }} /> */}
+              {/* <Card.Actions>
               <Button>Cancel</Button>
               <Button>Ok</Button>
-            </Card.Actions>
-          </Card>
-          <Card>
-            <Card.Title
+            </Card.Actions> */}
+            </Card>
+          </Row>
+          <Row>
+            <Card
+              style={styles.classlist}
+              onPress={() => navigation.navigate("FunctionList")}
+            >
+              {/* <Card.Title
               title="Card Title"
               subtitle="Card Subtitle"
               left={LeftContent}
-            />
-            <Card.Content>
-              <Title>Card title</Title>
-              <Paragraph>Card content</Paragraph>
-            </Card.Content>
-            <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
-            <Card.Actions>
+            /> */}
+              <Card.Content>
+                <Title>資料結構</Title>
+                <Paragraph>蔡幸蓁老師</Paragraph>
+              </Card.Content>
+              {/* <Card.Cover source={{ uri: "https://picsum.photos/700" }} /> */}
+              {/* <Card.Actions>
               <Button>Cancel</Button>
               <Button>Ok</Button>
-            </Card.Actions>
-          </Card>
+            </Card.Actions> */}
+            </Card>
+          </Row>
         </Col>
         <Col>
-          <Card>
-            <Card.Title
+          <Row>
+            <Card
+              style={styles.classlist}
+              onPress={() => navigation.navigate("FunctionList")}
+            >
+              {/* <Card.Title
               title="Card Title"
               subtitle="Card Subtitle"
               left={LeftContent}
-            />
-            <Card.Content>
-              <Title>Card title</Title>
-              <Paragraph>Card content</Paragraph>
-            </Card.Content>
-            <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
-            <Card.Actions>
+            /> */}
+              <Card.Content>
+                <Title>UI/UX設計</Title>
+                <Paragraph>吳濟聰老師</Paragraph>
+              </Card.Content>
+              {/* <Card.Cover source={{ uri: "https://picsum.photos/700" }} /> */}
+              {/* <Card.Actions>
               <Button>Cancel</Button>
               <Button>Ok</Button>
-            </Card.Actions>
-          </Card>
-          <Card>
-            <Card.Title
+            </Card.Actions> */}
+            </Card>
+          </Row>
+          <Row>
+            <Card
+              style={styles.classlist}
+              onPress={() => navigation.navigate("FunctionList")}
+            >
+              {/* <Card.Title
               title="Card Title"
               subtitle="Card Subtitle"
               left={LeftContent}
+            /> */}
+              <Card.Content>
+                <Title>系統分析</Title>
+                <Paragraph>吳濟聰老師</Paragraph>
+              </Card.Content>
+              {/* <Card.Cover source={{ uri: "https://picsum.photos/700" }} /> */}
+              {/* <Card.Actions>
+              <Button>Cancel</Button>
+              <Button>Ok</Button>
+            </Card.Actions> */}
+            </Card>
+
+            {/* <Card>
+            <Card.Title
+            title="Card Title"
+            subtitle="Card Subtitle"
+            left={LeftContent}
             />
             <Card.Content>
-              <Title>Card title</Title>
-              <Paragraph>Card content</Paragraph>
+            <Title>Card title</Title>
+            <Paragraph>Card content</Paragraph>
             </Card.Content>
             <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
             <Card.Actions>
-              <Button>Cancel</Button>
-              <Button>Ok</Button>
+            <Button>Cancel</Button>
+            <Button>Ok</Button>
             </Card.Actions>
-          </Card>
+            </Card>
+            </Col>
+            <Col>
+            <Card>
+            <Card.Title
+            title="Card Title"
+            subtitle="Card Subtitle"
+            left={LeftContent}
+            />
+            <Card.Content>
+            <Title>Card title</Title>
+            <Paragraph>Card content</Paragraph>
+            </Card.Content>
+            <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
+            <Card.Actions>
+            <Button>Cancel</Button>
+            <Button>Ok</Button>
+            </Card.Actions>
+            </Card>
+            <Card>
+            <Card.Title
+            title="Card Title"
+            subtitle="Card Subtitle"
+            left={LeftContent}
+            />
+            <Card.Content>
+            <Title>Card title</Title>
+            <Paragraph>Card content</Paragraph>
+            </Card.Content>
+            <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
+            <Card.Actions>
+            <Button>Cancel</Button>
+            <Button>Ok</Button>
+            </Card.Actions>
+          </Card> */}
+          </Row>
         </Col>
       </Grid>
-
-      <Fab onPress={() => add()}>
-        <Icon ios="ios-add" android="md-add" />
-      </Fab>
-
-      <PersonAddEdit
-        modalVisible={modalVisible}
-        person={person}
-        id={selectedId}
-        hide={hide}
-      />
     </View>
   );
 }

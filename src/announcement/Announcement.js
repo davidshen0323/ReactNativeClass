@@ -1,156 +1,121 @@
-import React, {useState} from 'react';
-import {
-    Alert,
-    Modal,
-    StyleSheet,
-    Text,
-    TouchableHighlight,
-    View
-  } from "react-native";
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
+import AnnouncementView from './AnnouncementView';
+import { FlatList, Alert, Modal, StyleSheet, Text, TouchableHighlight, View, TouchableOpacity, RefreshControl } from "react-native";
+import { Icon, Fab } from "native-base";
+import AnnouncementAdd from './AnnouncementAdd';
 
 export default function Announcement() {
 
+    const [announcements, setAnnouncements] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [modalVisible2, setModalVisible2] = useState(false);
-    const [modalVisible3, setModalVisible3] = useState(false);
-    const [modalVisible4, setModalVisible4] = useState(false);
+    const [selectedId, setSelectedId] = useState(null);
+    const [announcement, setAnnouncement] = useState({
+      Title:"",
+      Content:""}
+    );//temp variable for edit
+
+    useEffect(() => {
+
+      async function fetchData () {
+        const axios_config = {
+          headers: {'Authorization': 'Bearer key4eVi7GTb0FVNWK'}}
+        ;
+  
+        const url="https://api.airtable.com/v0/appCvAxAr9rxmTWh4/Announcement?maxRecords=30&view=Grid%20view";
+        const result = await axios.get(url,axios_config);
+        //console.log(result);
+        setAnnouncements(result.data.records);
+  
+      }
+  
+      fetchData();
+  
+    },[modalVisible]);
+
+    function add() {
+      setAnnouncement({
+        Title: "",
+        Content: "",
+      });
+  
+      setSelectedId("");
+      setModalVisible2(true);
+    }
+    function hide2() {
+      setAnnouncement({
+        Title: "",
+        Content: "",
+      });
+      setSelectedId("");
+      setModalVisible2(false);
+      
+    }
+
+    function hide(){
+      setAnnouncement({
+        Title:"",
+        Content:""
+      });
+      setSelectedId("");
+      setModalVisible(false);
+  
+    }
+
+    function update(id, index){
+      setAnnouncement({
+        Title:announcements[index].fields.Title,
+        Content:announcements[index].fields.Content
+      });
+  
+      setSelectedId(id);
+      setModalVisible(true);
+    }
+  
+  
     
+    const Item = ({ index, item, onPress, style }) => (
+      
+      <TouchableOpacity onPress={onPress} style={ styles.openButton}>
+        <Text style={styles.textStyle}>{item.fields.Title}</Text>
+      </TouchableOpacity>
+    );
+
+  const renderItem = ({ item, index }) => {
+
+    const backgroundColor = item.id === selectedId ? "#f9c2ff" : "#afdee3";
+
+
+    return (
+
+      <Item
+        index={index}
+        item={item}
+        onPress={() => update(item.id, index)}
+        style={{backgroundColor}}
+      />
+    );
+  };
+
+
+
+
   return (
     
-    <View style={styles.centeredView}>
-        
-        <Text style={styles.textAnnounce}>公佈欄</Text>
-                
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={modalVisible}
-      onRequestClose={() => {
-        Alert.alert("Modal has been closed.");
-      }}
-    >
-      <View style={styles.centeredView2}>
-        <View style={styles.modalView}>
-          <Text style={styles.modalText}>今天要上課唷! 12/23</Text>
-
-          <TouchableHighlight
-            style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-            onPress={() => {
-              setModalVisible(!modalVisible);
-            }}
-          >
-            <Text style={styles.textStyle}>關閉公告</Text>
-          </TouchableHighlight>
-        </View>
-      </View>
-    </Modal>
-
-    <TouchableHighlight
-      style={styles.openButton}
-      onPress={() => {
-        setModalVisible(true);
-      }}
-    >
-      <Text style={styles.textStyle}>今天要上課唷</Text>
-    </TouchableHighlight>
-
-
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={modalVisible2}
-      onRequestClose={() => {
-        Alert.alert("Modal has been closed.");
-      }}
-    >
-      <View style={styles.centeredView2}>
-        <View style={styles.modalView}>
-          <Text style={styles.modalText}>今天不用上課唷! 12/25</Text>
-
-          <TouchableHighlight
-            style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-            onPress={() => {
-              setModalVisible2(!modalVisible2);
-            }}
-          >
-            <Text style={styles.textStyle}>關閉公告</Text>
-          </TouchableHighlight>
-        </View>
-      </View>
-    </Modal>
-    <TouchableHighlight
-      style={styles.openButton}
-      onPress={() => {
-        setModalVisible2(true);
-      }}
-    >
-      <Text style={styles.textStyle}>今天不用上課唷</Text>
-    </TouchableHighlight>
-
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={modalVisible3}
-      onRequestClose={() => {
-        Alert.alert("Modal has been closed.");
-      }}
-    >
-      <View style={styles.centeredView2}>
-        <View style={styles.modalView}>
-          <Text style={styles.modalText}>記得做作業! 01/05</Text>
-
-          <TouchableHighlight
-            style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-            onPress={() => {
-              setModalVisible3(!modalVisible3);
-            }}
-          >
-            <Text style={styles.textStyle}>關閉公告</Text>
-          </TouchableHighlight>
-        </View>
-      </View>
-    </Modal>
-    <TouchableHighlight
-      style={styles.openButton}
-      onPress={() => {
-        setModalVisible3(true);
-      }}
-    >
-      <Text style={styles.textStyle}>記得做作業</Text>
-    </TouchableHighlight>
-
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={modalVisible4}
-      onRequestClose={() => {
-        Alert.alert("Modal has been closed.");
-      }}
-    >
-      <View style={styles.centeredView2}>
-        <View style={styles.modalView}>
-          <Text style={styles.modalText}>這禮拜不用來!這禮拜不用來!這禮拜不用來!這禮拜不用來!這禮拜不用來!</Text>
-          <Text style={styles.modalText}>01/13</Text>
-          <TouchableHighlight
-            style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-            onPress={() => {
-              setModalVisible4(!modalVisible4);
-            }}
-          >
-            <Text style={styles.textStyle}>關閉公告</Text>
-          </TouchableHighlight>
-        </View>
-      </View>
-    </Modal>
-    <TouchableHighlight
-      style={styles.openButton}
-      onPress={() => {
-        setModalVisible4(true);
-      }}
-    >
-      <Text style={styles.textStyle}>最後一週不用來</Text>
-    </TouchableHighlight>
-  </View>
+    <View style={styles.centeredView}>   
+      <Text style={styles.textAnnounce}>公佈欄</Text>
+        <FlatList 
+            data={announcements} 
+            renderItem = {renderItem}
+            keyExtractor={(item, index) => ""+index}>
+        </FlatList>
+        <AnnouncementView modalVisible = {modalVisible} announcement = {announcement} id={selectedId} hide={hide}/> 
+        <Fab style={styles.fab} onPress={() => add()}>
+          <Icon ios="ios-add" android="md-add" />
+        </Fab>
+      <AnnouncementAdd modalVisible2 = {modalVisible2} update={update} hide2={hide2}/>
+    </View>
 
 
   );
@@ -159,14 +124,17 @@ export default function Announcement() {
 const styles = StyleSheet.create({
     centeredView: {
       flex: 1,
+      display: "flex",
+      flexDirection: "column",
       justifyContent: "center",
+      padding: 35,
+      backgroundColor: '#ffecd9',
       alignItems: "center",
-      marginBottom:"95%"
     },
     centeredView2: {
         flex: 1,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
       },
     modalView: {
       margin: 20,
@@ -189,9 +157,9 @@ const styles = StyleSheet.create({
       backgroundColor: "#f8b62b",
       borderRadius: 20,
       padding: 10,
-      elevation: 2,
-      marginTop:10,
-      width:"80%",
+      elevation: 3,
+      marginTop:20,
+      width:220,
     },
     textStyle: {
       color: "white",
@@ -206,5 +174,12 @@ const styles = StyleSheet.create({
         fontSize:30,
         fontWeight:'bold',
         marginBottom:20
+    },
+    fab: {
+      position: 'absolute',
+      margin: 16,
+      right: 0,
+      bottom: 0,
+      backgroundColor:"#f8b62b"
     },
   });
