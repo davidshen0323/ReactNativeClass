@@ -30,9 +30,7 @@ export default function FunctionList() {
     Age: 0,
   }); //temp variable for edit
 
-  const classcontext = useContext(csid);
 
-  console.log(classcontext);
 
 
   useEffect(() => {
