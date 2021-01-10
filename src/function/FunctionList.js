@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { FlatList, View, Text, TouchableOpacity } from "react-native";
 import { Icon, Fab } from "native-base";
 import axios from "axios";
@@ -15,6 +15,8 @@ import SignOut from "../account/SignOut";
 import HandsUp from "../HandsUp/HandsUpChoose";
 import Announcement from '../announcement/Announcement';
 import Comment from '../commentbox/Commentbox';
+import csid from "../classcontext/ClassContext";
+
 
 const LeftContent = (props) => <Avatar.Icon {...props} icon="folder" />;
 
@@ -28,6 +30,11 @@ export default function FunctionList() {
     Age: 0,
   }); //temp variable for edit
 
+  const classcontext = useContext(csid);
+
+  console.log(classcontext);
+
+
   useEffect(() => {
     async function fetchData() {
       const axios_config = {
@@ -39,6 +46,8 @@ export default function FunctionList() {
       //console.log(result);
       setPersons(result.data.records);
     }
+
+
 
     fetchData();
   }, [modalVisible]);
