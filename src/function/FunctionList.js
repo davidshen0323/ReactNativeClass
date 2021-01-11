@@ -3,14 +3,22 @@ import React from "react";
 import { Avatar } from "react-native-paper";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import SignOut from "../account/SignOut";
+
 import HandsUp from "../HandsUp/HandsUpChoose";
 import Announcement from "../announcement/Announcement";
 import Comment from "../commentbox/Commentbox";
 
 
+import HandsUp from "../HandsUp/HandsUpWork";
+
+
+
+
+
 const LeftContent = (props) => <Avatar.Icon {...props} icon="folder" />;
 
 export default function FunctionList({ route }) {
+
 
   const { Csid } = route.params;
  
