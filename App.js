@@ -21,8 +21,8 @@ import CommentboxList from './src/commentbox/CommentboxList';
 import Click from './Click';
 // import * as SecureStore from 'expo-secure-store';
 import ImageUpload from './src/storage/ImageUpload';
-//import HandsUp from './src/HandsUp/HandsUpWork';
-import HandsUp from './src/HandsUp/HandsUpChoose';
+import HandsUpWork from './src/HandsUp/HandsUpWork';
+import HandsUpChoose from './src/HandsUp/HandsUpChoose';
 //import HandsUp from './src/HandsUp/HandsUpLists';
 
 
@@ -180,11 +180,14 @@ function App() {
         <Stack.Screen name="Home" component={Home} />
         {/* <Stack.Screen name="Push" component={Push} initialParams={expoPushToken}/> */}
         <Stack.Screen name="FunctionList" component={FunctionList} />
+
+        <Stack.Screen name="HandsUpWorks" component={HandsUpWork} />
+        <Stack.Screen name="HandsUpChoose" component={HandsUpChoose} />
+
         <Stack.Screen name="Announcement" component={Announcement} />
         <Stack.Screen name="Comment" component={Comment} />
         <Stack.Screen name="CommentboxList" component={CommentboxList} />
-        
-      
+
       </Stack.Navigator>
     </NavigationContainer>
     
