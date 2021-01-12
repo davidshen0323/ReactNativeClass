@@ -1,9 +1,23 @@
 import React, {useState, useEffect} from 'react';
-import { FlatList, View, Text, TouchableOpacity, StatusBar, StyleSheet, Image,TextInput, Button} from 'react-native';
+import {FlatList,
+        View, 
+        Text, 
+        TouchableOpacity, 
+        StatusBar, 
+        StyleSheet, 
+        Image,
+        TextInput, 
+        Button,
+        KeyboardAvoidingView,
+        Platform,
+        TouchableWithoutFeedback,
+        Keyboard
+      } from 'react-native';
 import { Icon, Fab, Content, Title } from "native-base";  
 import axios from "axios";
 import Commentbox from "./Commentbox"
 // import styles from "../styles";
+import Moment from 'moment';
 
 function CommentboxList({route}){
   
@@ -34,7 +48,7 @@ function CommentboxList({route}){
     }
 
     fetchData();
-  }, [modalVisible]);
+  }, [commentboxs]);
    
 
   //  useEffect(() => {
@@ -145,23 +159,20 @@ const renderItem = ({ item, index }) => {
 
 
   return (
-    
-    <View style={styles.container2}>
+   
+  <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.keyboardcontainer}
+  >
+
+  <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+  <View style={styles.inner}>
+  <View style={styles.container2}>
 
     <Text style={styles.textCommentbox}>留言板</Text>
-
-      <View style={styles.viewbox}>
+      {/* <View style={styles.viewbox}> */}
 
       {/* <ImagesExample /> */}
-
-      <TextInput
-        multiline
-        style={styles.input}
-        placeholder='請輸入內文'
-        onChangeText={(newmessage) => setMessage(newmessage)}/>
-      
-      
-      <Button onPress={update} title="留言"/>
       
       {/* <View>
           <Text> {JSON.stringfy(Title)} </Text>
@@ -172,15 +183,21 @@ const renderItem = ({ item, index }) => {
         data={commentboxs}
         renderItem={renderItem}
         keyExtractor={(item, index) => "" + index}
-      ></FlatList>
+      ></FlatList>       
 
+      <TextInput
+        multiline
+        style={styles.input}
+        placeholder='請輸入內文'
+        onChangeText={(newmessage) => setMessage(newmessage)}/>
       
-        
+      <Button onPress={update} title="留言"/>
 
-        </View>
-      
-      
-    </View>
+      {/* </View> */}
+  </View>
+  </View>
+  </TouchableWithoutFeedback>
+  </KeyboardAvoidingView>
 
   );
 
@@ -188,16 +205,8 @@ const renderItem = ({ item, index }) => {
 
 const styles = StyleSheet.create({
 
-  container: {
+  keyboardcontainer: {
     flex: 1,
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    padding: 35,
-    backgroundColor: '#ffd1a4',
-    marginTop: StatusBar.currentHeight || 0,
-    alignItems: "center",
-
   },
 
   container2: {
@@ -212,6 +221,9 @@ const styles = StyleSheet.create({
     // marginRight:5,
     // marginTop: 10,
     alignItems: "center",
+    borderRadius: 20,
+    marginBottom:35
+
 
   },
 
@@ -221,7 +233,6 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-
     backgroundColor: '#f8b62b',
     padding: 15,
     marginVertical: 8,
@@ -277,7 +288,8 @@ const styles = StyleSheet.create({
   textCommentbox:{
     fontSize:30,
     fontWeight:'bold',
-    marginBottom:20
+    marginBottom:20,
+    marginTop:10
 },
 
 frame:{
@@ -304,7 +316,13 @@ input: {
   padding: 8,
   margin: 10,
   width: 200,
-}
+},
+
+inner: {
+  padding: 24,
+  flex: 1,
+  justifyContent: "space-around"
+},
 
 
   
