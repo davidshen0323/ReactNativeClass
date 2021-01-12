@@ -4,12 +4,14 @@ import AnnouncementView from './AnnouncementView';
 import { FlatList, Alert, Modal, StyleSheet, Text, TouchableHighlight, View, TouchableOpacity, RefreshControl } from "react-native";
 import { Icon, Fab } from "native-base";
 import AnnouncementAdd from './AnnouncementAdd';
+import AnnouncementDelete from './AnnouncementDelete';
 
 export default function Announcement() {
 
     const [announcements, setAnnouncements] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [modalVisible2, setModalVisible2] = useState(false);
+    const [modalVisible3, setModalVisible3] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
     const [announcement, setAnnouncement] = useState({
       Title:"",
@@ -43,15 +45,7 @@ export default function Announcement() {
       // setSelectedId("");
       setModalVisible2(true);
     }
-    function hide2() {
-      setAnnouncement({
-        Title: "",
-        Content: "",
-      });
-      setSelectedId("");
-      setModalVisible2(false);
-      
-    }
+
 
     function hide(){
       setAnnouncement({
@@ -62,7 +56,24 @@ export default function Announcement() {
       setModalVisible(false);
   
     }
-
+    function hide2() {
+      setAnnouncement({
+        Title: "",
+        Content: "",
+      });
+      setSelectedId("");
+      setModalVisible2(false);
+      
+    }
+    function hide3() {
+      setAnnouncement({
+        Title: "",
+        Content: "",
+      });
+      setSelectedId("");
+      setModalVisible3(false);
+      
+    }
     function update(id, index){
       setAnnouncement({
         Title:announcements[index].fields.Title,
@@ -73,11 +84,20 @@ export default function Announcement() {
       setModalVisible(true);
     }
   
+    function Delete(id, index){
+      setAnnouncement({
+        Title:announcements[index].fields.Title,
+        Content:announcements[index].fields.Content
+      });
+  
+      setSelectedId(id);
+      setModalVisible3(true);
+    }
   
     
-    const Item = ({ index, item, onPress, style }) => (
+    const Item = ({ index, item, onPress, onLongPress, style }) => (
       
-      <TouchableOpacity onPress={onPress} style={ styles.openButton}>
+      <TouchableOpacity onPress={onPress} onLongPress={onPress} onLongPress={onLongPress} style={ styles.openButton}>
         <Text style={styles.textStyle}>{item.fields.Title}</Text>
       </TouchableOpacity>
     );
@@ -93,6 +113,7 @@ export default function Announcement() {
         index={index}
         item={item}
         onPress={() => update(item.id, index)}
+        onLongPress={() => Delete(item.id, index)}
         style={{backgroundColor}}
       />
     );
@@ -111,6 +132,7 @@ export default function Announcement() {
             keyExtractor={(item, index) => ""+index}>
         </FlatList>
         <AnnouncementView modalVisible = {modalVisible} announcement = {announcement} id={selectedId} hide={hide}/> 
+        <AnnouncementDelete modalVisible3 = {modalVisible3} Delete = {Delete} announcement = {announcement} id={selectedId} hide3={hide3}/> 
         <Fab style={styles.fab} onPress={() => add()}>
           <Icon ios="ios-add" android="md-add" />
         </Fab>
