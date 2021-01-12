@@ -17,7 +17,6 @@ export default function AnnouncementView(props) {
     }, [props.id]);
 
     function update() {
-
         async function sendData() {
             // if id exists, assign a newAnnouncement with id
             // else assign a newAnnouncement without id

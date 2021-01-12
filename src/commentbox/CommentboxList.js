@@ -1,23 +1,25 @@
 import React, {useState, useEffect} from 'react';
-import { FlatList, View, Text, TouchableOpacity, StatusBar, StyleSheet, Image} from 'react-native';
-import { Icon, Fab } from "native-base";
+import { FlatList, View, Text, TouchableOpacity, StatusBar, StyleSheet, Image,TextInput, Button} from 'react-native';
+import { Icon, Fab, Content, Title } from "native-base";  
 import axios from "axios";
-import CommentboxAddEdit from "./CommentboxAddEdit";
+import Commentbox from "./Commentbox"
 // import styles from "../styles";
-import { Avatar} from "react-native-paper";
 
-const LeftContent = (props) => <Avatar.Icon {...props} icon="folder" />;
-
-function CommentboxList() {
-
-   const[commentboxs, setCommentboxs] = useState([]);
+function CommentboxList({route}){
+  
    const [modalVisible, setModalVisible] = useState(false);
+   const[commentboxs, setCommentboxs] = useState([]);
    const [selectedId, setSelectedId] = useState(null);
-   const [commentbox, setCommentbox] = useState({
-    Title:"",
-    Content: "",
-  });
-   
+   const [message, setMessage] = useState();
+   const [time, setTime] = useState();
+  //  const [title, setTitle] = useState();
+  //  const [content, setContent] = useState();
+  //  const {Title} = route.params.Title;
+  //  const {Content} = route.params.Content;
+  //  console.log(Title);
+  //  console.log(Content);
+
+
 
   useEffect(() => {
     async function fetchData() {
@@ -25,7 +27,7 @@ function CommentboxList() {
         headers: { Authorization: "Bearer keys9gKjERVN7YgGk" },
       };
       const url =
-        "https://api.airtable.com/v0/appCvAxAr9rxmTWh4/CommentboxList?maxRecords=100&view=Grid%20view";
+        "https://api.airtable.com/v0/appCvAxAr9rxmTWh4/CommentboxList?maxRecords=50&view=Grid%20view";
       const result = await axios.get(url, axios_config);
       //console.log(result);
       setCommentboxs(result.data.records);
@@ -33,9 +35,105 @@ function CommentboxList() {
 
     fetchData();
   }, [modalVisible]);
+   
 
+  //  useEffect(() => {
+  //   setTitle(route.params.Title); 
+  //   setContent(route.params.Content);
+  // }, [route.params.id]);
+  
+
+  function update() {
+
+    async function sendData() {
+
+        const newCommentbox = route.params.id
+            ? {
+                records: [{
+                    //id: route.params.id,
+                    fields: {
+                        Message: message,
+                        Time: time,
+                    }
+                }]
+            }
+            : {
+                fields: {
+                      Message: message,
+                      Time: time,
+                  }
+            }
+
+            const axios_config = {
+                headers: {
+                    'Authorization': 'Bearer keys9gKjERVN7YgGk',
+                    'Content-Type': 'application/json'}
+                }
+            ;
+            try {
     
+                const url="https://api.airtable.com/v0/appCvAxAr9rxmTWh4/CommentboxList?maxRecords=50&view=Grid%20view";
 
+            // if id exists, call put
+            // else call post
+            
+            const result = route.params.id
+                ? await axios.put(url, newCommentbox, axios_config)
+                : await axios.post(url, newCommentbox, axios_config);
+
+                setMessage("");
+                setTime("");
+                console.log(result.data);
+            
+
+            // props.hide();
+        }
+
+        catch (e) {
+            console.log("error:" + e);
+        }
+    }
+    sendData();
+
+}
+
+
+
+
+const Item = ({ index, item, onPress, style }) => (
+  <TouchableOpacity
+    onPress={onPress} style={[styles.item, style]}>
+    {/* <Text>{index}</Text> */}
+    <View style={styles.frame}>
+      <Text style={styles.title}>
+        {item.fields.Message}
+      </Text>
+    </View>
+    
+    <View style={styles.frame2}>
+      <Text style={styles.itemtext}>
+        {item.fields.Time}
+      </Text>
+    </View>
+
+  </TouchableOpacity>
+  
+);
+    
+const renderItem = ({ item, index }) => {
+
+  const backgroundColor = item.id === selectedId ? "#f9c2ff" : "#afdee3";
+
+
+  return (
+    <Item
+      index={index}
+      item={item}
+      // onPress={() => update(item.id, index)}
+      style={{backgroundColor}}
+    />
+  );
+};
   
 
 
@@ -50,23 +148,43 @@ function CommentboxList() {
     
     <View style={styles.container2}>
 
-      <ImagesExample />
-      <Text style={styles.textCommentbox}>討論區22222</Text>
-      
-      
-     
+    <Text style={styles.textCommentbox}>留言板</Text>
 
-    
+      <View style={styles.viewbox}>
+
+      {/* <ImagesExample /> */}
+
+      <TextInput
+        multiline
+        style={styles.input}
+        placeholder='請輸入內文'
+        onChangeText={(newmessage) => setMessage(newmessage)}/>
+      
+      
+      <Button onPress={update} title="留言"/>
+      
+      {/* <View>
+          <Text> {JSON.stringfy(Title)} </Text>
+          <Text> {JSON.stringfy(Content)} </Text>
+      </View> */}
+
+      <FlatList
+        data={commentboxs}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => "" + index}
+      ></FlatList>
+
+      
+        
+
+        </View>
+      
       
     </View>
 
   );
 
 }
-
-
-
-
 
 const styles = StyleSheet.create({
 
@@ -175,6 +293,18 @@ frame2:{
   flex:5,
   alignContent: 'space-around',
 },
+
+viewbox:{
+  backgroundColor:'#ffffff'
+},
+
+input: {
+  borderWidth: 1,
+  borderColor: '#777',
+  padding: 8,
+  margin: 10,
+  width: 200,
+}
 
 
   

@@ -88,7 +88,6 @@ export default function Announcement() {
 
 
     return (
-
       <Item
         index={index}
         item={item}
