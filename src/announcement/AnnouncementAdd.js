@@ -9,15 +9,16 @@ export default function AnnouncementAdd(props) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   
-  
-  function update(){
+  function add(){
     async function sendData(){
-
         const newAnnouncement={
-            fields:{
+          records: [{
+            id: props.id,
+            fields: {
                 Title:title,
-                Content:content,
+                Content: content
             }
+        }]
         }
         console.log(newAnnouncement)
         const axios_config = {
@@ -29,8 +30,7 @@ export default function AnnouncementAdd(props) {
         try {
 
             const url="https://api.airtable.com/v0/appCvAxAr9rxmTWh4/Announcement?maxRecords=50&view=Grid%20view";
-            const result = await axios.post(url,newAnnouncement, axios_config);
-            console.log(result);
+            const result = await axios.post(url, newAnnouncement, axios_config);
             setTitle("");
             setContent("");
             //setPersons(result.data.records);
@@ -46,24 +46,19 @@ export default function AnnouncementAdd(props) {
         }
         
   return (
-    <Modal animationType="slide"
-    transparent={true}
-    visible={props.modalVisible2}
-    onRequestClose={() => {
-        Alert.alert("Modal has been closed.");
-      }} >
-    <View style={styles.centeredView2}>
-      <View style={styles.modalView}>
-    <TextInput placeholder="標題" value={title} onChangeText={text=>setTitle(text)}/>
-    <TextInput placeholder="內容" value={content} onChangeText={text=>setContent(text)}/>
-    <TouchableHighlight style={styles.openButton} onPress={update}>
-      <Text style={styles.textStyle}>新增</Text>
-    </TouchableHighlight>
-    <TouchableHighlight style={styles.openButton} onPress={props.hide2} >
-      <Text style={styles.textStyle}>關閉公告</Text>
-    </TouchableHighlight>
-    </View>
-    </View>
+    <Modal animationType="slide" transparent={true} visible={props.modalVisible2} onRequestClose={() => { Alert.alert("Modal has been closed."); }} >
+      <View style={styles.centeredView2}>
+        <View style={styles.modalView}>
+          <TextInput placeholder="標題" value={title} onChangeText={text=>setTitle(text)}/>
+          <TextInput placeholder="內容" value={content} onChangeText={text=>setContent(text)}/>
+            <TouchableHighlight style={styles.openButton} onPress={add}>
+              <Text style={styles.textStyle}>新增</Text>
+            </TouchableHighlight>
+            <TouchableHighlight style={styles.openButton} onPress={props.hide2} >
+              <Text style={styles.textStyle}>關閉公告</Text>
+            </TouchableHighlight>
+        </View>
+      </View>
     </Modal>
   );
 

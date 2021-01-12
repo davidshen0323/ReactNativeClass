@@ -32,7 +32,7 @@ export default function Announcement() {
   
       fetchData();
   
-    },[modalVisible]);
+    },[announcement]);
 
     function add() {
       setAnnouncement({
@@ -40,7 +40,7 @@ export default function Announcement() {
         Content: "",
       });
   
-      setSelectedId("");
+      // setSelectedId("");
       setModalVisible2(true);
     }
     function hide2() {
@@ -114,7 +114,7 @@ export default function Announcement() {
         <Fab style={styles.fab} onPress={() => add()}>
           <Icon ios="ios-add" android="md-add" />
         </Fab>
-      <AnnouncementAdd modalVisible2 = {modalVisible2} update={update} hide2={hide2}/>
+      <AnnouncementAdd modalVisible2 = {modalVisible2} add={add} hide2={hide2}/>
     </View>
 
 

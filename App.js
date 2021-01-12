@@ -58,46 +58,46 @@ function Home(){
   );
 }
 
-function Push({route}){
-  return(
-    <View
+// function Push({route}){
+//   return(
+//     <View
 
-    style={{
+//     style={{
 
-      flex: 1,
+//       flex: 1,
 
-      alignItems: 'center',
+//       alignItems: 'center',
 
-      justifyContent: 'space-around',
+//       justifyContent: 'space-around',
 
-    }}>
+//     }}>
 
-    <Text>Your expo push token: {route.params.expoPushToken}</Text>
+//     <Text>Your expo push token: {route.params.expoPushToken}</Text>
 
-    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+//     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
 
-      {/* <Text>Title: {notification && notification.request.content.title} </Text>
+//       {/* <Text>Title: {notification && notification.request.content.title} </Text>
 
-      <Text>Body: {notification && notification.request.content.body}</Text>
+//       <Text>Body: {notification && notification.request.content.body}</Text>
 
-      <Text>Data: {notification && JSON.stringify(notification.request.content.data)}</Text> */}
+//       <Text>Data: {notification && JSON.stringify(notification.request.content.data)}</Text> */}
 
-    </View>
+//     </View>
 
-    <Button
+//     <Button
 
-      title="推播！"
+//       title="推播！"
 
-      onPress={async () => {
+//       onPress={async () => {
 
-        await sendPushNotification(expoPushToken);
+//         await sendPushNotification(expoPushToken);
 
-      }}
+//       }}
 
-    />
-  </View>
-  );
-}
+//     />
+//   </View>
+//   );
+// }
 
 function close(){
   props.close();
@@ -178,14 +178,13 @@ function App() {
         <Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name="SignOut" component={SignOut} />
         <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="Push" component={Push} initialParams={expoPushToken}/>
+        {/* <Stack.Screen name="Push" component={Push} initialParams={expoPushToken}/> */}
         <Stack.Screen name="FunctionList" component={FunctionList} />
         <Stack.Screen name="Announcement" component={Announcement} />
         <Stack.Screen name="Comment" component={Comment} />
         <Stack.Screen name="CommentboxList" component={CommentboxList} />
         
-        
-
+      
       </Stack.Navigator>
     </NavigationContainer>
     
