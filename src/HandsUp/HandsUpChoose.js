@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, StyleSheet, Dimensions,Text,ImageBackground } from 'react-native';
 import { TabView, SceneMap } from 'react-native-tab-view';
-import HandsUpLists from './HandsUpLists';
+import HandsUpLists from './NHandsUpLists';
 import HandsUpFinish from './HandsUpFinish';
  
 const FirstRoute = () => (
