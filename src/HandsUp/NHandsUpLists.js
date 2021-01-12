@@ -1,26 +1,98 @@
 //import * as React from 'react';
 import { DataTable } from 'react-native-paper';
+import axios from 'axios';
 import { StyleSheet, View, ScrollView, Text,TouchableOpacity, Alert,ImageBackground } from 'react-native';
 import { Item } from 'native-base';
 import React, {useState, useEffect} from 'react';
+import { FlatList } from 'react-native-gesture-handler';
+import { acc } from 'react-native-reanimated';
+//import styles from '../styles';
 
 export default function MyComponent() {
-  const [lists,setLists] = useState([]);
-
+  const [acceptances, setAcceptances] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const acceptanceList = ['std_id', 'std_name', 'accept_time', 'accept_state']
+  console.log("MyComponent");
   useEffect(() => {
+    console.log("useEffect in MyComponent");
     async function fetchData() {
       const axios_config = {
         headers: { Authorization: "Bearer keys9gKjERVN7YgGk" },
       };
       const url =
-      "https://api.airtable.com/v0/appCvAxAr9rxmTWh4/WorkList?maxRecords=50&view=Grid%20view";
+      "https://api.airtable.com/v0/appCvAxAr9rxmTWh4/Acceptance?maxRecords=50&view=Grid%20view";
       const result = await axios.get(url, axios_config);
-      //console.log(result);
-      setWorks(result.data.records);
+      console.log(result);
+      setAcceptances([...result.data.records]);
     }
 
     fetchData();
-  }, [modalVisible]);
+  }, [acceptances]);
+
+
+// const time = (item)=>{
+// var t = {item.fields.Time},
+// }
+  
+ function time (item) {
+    var t = item.fields.Time;
+    var tt=t.split("T")
+    var ttt=tt[1].split(".");
+    //alert(tt[0]) 
+    return (ttt[0])   
+    }
+
+ const Item = ({ index, item}) => (
+   
+  <View style={styles.item}>
+    <View style={{width:90}}>
+      <DataTable.Cell >{item.fields.Number}</DataTable.Cell>
+    </View>
+    <View style={{width:50,backgroundColor:'#E7E6E1'}}>
+      <DataTable.Cell >{item.fields.Name}</DataTable.Cell>
+    </View>
+    <View style={{width:130}}>
+      <DataTable.Cell >{time(item)}</DataTable.Cell>
+    </View>
+    <View style={{width:40,backgroundColor:'#E7E6E1'}}>
+      <DataTable.Cell >{item.fields.Status}</DataTable.Cell>
+    </View>
+    {/* <View style={{width:90,backgroundColor:'pink'}}>
+      <Text >{item.fields.Number}</Text>
+    </View> 
+    <View style={{width:50,backgroundColor:'orange'}}> 
+      <Text >{item.fields.Name}</Text>
+    </View>
+    <View style={{width:120,backgroundColor:'pink'}}>
+      <Text>{item.fields.Time}</Text>
+    </View>
+    <View style={{width:50,paddingRight:15,backgroundColor:'orange'}}>
+      <Text>{item.fields.Status}</Text>
+    </View> */}
+    </View>
+  
+  //   <TouchableOpacity  style={ styles.openButton}>
+  //   <Text style={styles.textStyle}>{item.fields.Number}</Text>
+  //   <Text style={styles.textStyle}>{item.fields.Name}</Text>
+  //   <Text style={styles.textStyle}>{item.fields.Time}</Text>
+  //   <Text style={styles.textStyle}>{item.fields.Status}</Text>
+  // </TouchableOpacity>
+  );
+
+const renderItem = ({ item, index }) => {
+
+   return (
+     <DataTable.Row>
+      <Item
+        index={index}
+        item={item}
+        style={styles.items}
+      />
+   </DataTable.Row>
+  );
+};
+
+
 
   return (
     <ImageBackground source={require('../img/bg.jpg')} style={styles.backgroundImage} >
@@ -29,16 +101,38 @@ export default function MyComponent() {
   <DataTable style={styles.table}>
     <DataTable.Header style={styles.header}>
       <DataTable.Title>學號</DataTable.Title>
-      <DataTable.Title numeric>姓名</DataTable.Title>
-      <DataTable.Title numeric>時間</DataTable.Title>
+      <DataTable.Title style={{paddingLeft:25}}>姓名</DataTable.Title>
+      <DataTable.Title >時間</DataTable.Title>
       <DataTable.Title numeric>狀態</DataTable.Title>
     </DataTable.Header>
 
-    <DataTable.Row>
+    {/* <DataTable.Row>
+
+      {acceptances.map((acceptance,index)
+      (
+        <DataTable.Row key={index}>
+          {acceptanceList.map((list,i)
+          (
+            <DataTable.Cell key={i} align="center">
+              {accpetance[list]}
+            </DataTable.Cell>
+          )
+          )}
+
+        </DataTable.Row>
+      )  )}
+
+  
       <DataTable.Cell>jjjjjjj</DataTable.Cell>
       <DataTable.Cell numeric>159</DataTable.Cell>
       <DataTable.Cell numeric>6.0</DataTable.Cell>
-    </DataTable.Row>
+      <DataTable.Cell numeric>6.0</DataTable.Cell>
+    </DataTable.Row> */}
+
+    <FlatList
+      data={acceptances}
+      renderItem={renderItem}>
+      </FlatList>
 
 
 
@@ -76,21 +170,24 @@ export default function MyComponent() {
       container: { flex: 1, padding: 25, paddingTop: 30 },
       container2: { flex: 1, paddingTop: 15,paddingBottom:25 },
       header: { backgroundColor: '#f8b62b' },
-      text: { textAlign: 'center', fontWeight: '100' },
+      text: { textAlign: 'center', fontWeight: '100',backgroundColor:'pink' },
       dataWrapper: { marginTop: -1 },
       row: { height: 40,flexDirection: 'row', backgroundColor: '#E7E6E1' },
-      btn: { width: 58, height: 18, backgroundColor: '#78B7BB',  borderRadius: 2 },
-      btnText: { textAlign: 'center', color: '#fff',fontSize: 16,alignItems: "center" },
+      
+      backgroundImage: {
+        flex: 1,
+      },
+      table:{
+        backgroundColor:'#ffffff',
+      },
+      item: { 
+        flex: 1,
+        flexDirection: "row",
+      },
       button:{ width:100,height:25,backgroundColor: "#f8b62b",borderRadius: 5},
       buttonText: { textAlign: 'center', color: '#fff',fontSize: 20,alignItems: "center" },
       fixToText: {
         flexDirection: 'row',
         justifyContent: 'space-between',
       },
-      backgroundImage: {
-        flex: 1,
-      },
-      table:{
-        backgroundColor:'#ffffff'
-      }
     });
