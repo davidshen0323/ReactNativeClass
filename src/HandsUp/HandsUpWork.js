@@ -9,26 +9,31 @@ import { useNavigation } from "@react-navigation/native";
 
 const LeftContent = (props) => <Avatar.Icon {...props} icon="folder" />;
 
-export default function HandsUpWork() {
+export default function HandsUpWork({route}) {
 
    const [works, setWorks] = useState([]);
+   const [acceptance, setAcceptance] = useState([]);
    const [modalVisible, setModalVisible] = useState(false);
-   const [selectedId, setSelectedId] = useState(null);
-   const [newworks, setNewworks] = useState({
-    Title:"",
-  });
-   
+   const [Csid,setCsid] =useState(route.params.Csid);
+   console.log("課堂列表的csid"+Csid)
 
   useEffect(() => {
     async function fetchData() {
       const axios_config = {
-        headers: { Authorization: "Bearer keys9gKjERVN7YgGk" },
+        headers: {
+          "Authorization":
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IjE2MjgzIiwiZXhwIjoxNjQxOTc4MzU5LCJpc3MiOiJQcm9ncmFtbWluZyBDbGFzc3Jvb20ifQ.zY0_7FPY14jk8ZcOXJIBYAT7jmEN2hmeOv91l3j5yM8",
+          },
       };
       const url =
-      "https://api.airtable.com/v0/appCvAxAr9rxmTWh4/WorkList?maxRecords=50&view=Grid%20view";
+       //"https://api.airtable.com/v0/appCvAxAr9rxmTWh4/WorkList?maxRecords=50&view=Grid%20view";
+      "http://140.136.156.12:8080/teacher/acceptance/CSD129";
       const result = await axios.get(url, axios_config);
+      //console.log(url);
+      setAcceptance(result.data);
+      console.log("我接的值"+result.data+"~")
       //console.log(result);
-      setWorks(result.data.records);
+      //setWorks(result.data.records);
     }
 
     fetchData();
@@ -61,7 +66,7 @@ export default function HandsUpWork() {
   }
 
   function update(id, index) {
-    setNewworks({
+    setWorks({
       Title: works[index].fields.Title,
     });
 
@@ -70,8 +75,9 @@ export default function HandsUpWork() {
   }
 
   const Item = ({ index, item, onPress, style }) => (
-    <TouchableOpacity onPress={() => navigation.navigate("HandsUpChoose")} style={[styles.item, style]}>
-      <Text style={styles.title}>{item.fields.Title}</Text>
+    <TouchableOpacity onPress={() => navigation.navigate("HandsUpChoose") } style={styles.item}>
+      {/* <Text style={styles.title}>{item.fields.Title}</Text> */}
+      <Text style={styles.title}>{acceptance[index].hw_name}</Text>
     </TouchableOpacity>
   );
 
@@ -83,7 +89,7 @@ export default function HandsUpWork() {
       <Item
         index={index}
         item={item}
-        onPress={() => update(item.id, index)}
+        // onPress={() => update(item.id, index)}
         // style={{ backgroundColor }}
         style={styles.item}
       />
@@ -95,8 +101,9 @@ export default function HandsUpWork() {
   return (
 <ImageBackground source={require('../img/bg.jpg')} style={styles.backgroundImage} >
     <View style={styles.container2}>
+    <Text style={styles.textAnnounce}>課堂舉手</Text>
       <FlatList
-        data={works}
+        data={acceptance}
         renderItem={renderItem}
         keyExtractor={(item, index) => "" + index}
         // onPress={() => navigation.navigate("HandsUpChoose")}
@@ -198,6 +205,11 @@ const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
   },
+  textAnnounce:{
+    fontSize:30,
+    fontWeight:'bold',
+    marginBottom:20
+},
   
 
 });
