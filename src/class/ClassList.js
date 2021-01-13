@@ -9,12 +9,17 @@ import { Avatar, Button, Card, Title, Paragraph } from "react-native-paper";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import PersonAddEdit from "../person/PersonAddEdit";
 import { useNavigation } from "@react-navigation/native";
+import FunctionList from "../function/FunctionList";
+import ClassAdd from "../class/ClassAdd";
+import ClassView from "../class/ClassView";
 
 const LeftContent = (props) => <Avatar.Icon {...props} icon="folder" />;
 
-export default function ClassList() {
+export default function ClassList({ route }) {
   const [cs, setCs] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible2, setModalVisible2] = useState(false);
+
   const [selectedId, setSelectedId] = useState(null);
   const [classes, setClasses] = useState({
     Title: "",
@@ -22,20 +27,29 @@ export default function ClassList() {
     Teacher: "",
   }); //temp variable for edit
 
+  const { Token } = route.params;
+  const { Role } = route.params;
+  // console.log("接到token:" + Token);
+  // console.log("接到role:" + Role);
+
   useEffect(() => {
     async function fetchData() {
       const axios_config = {
-        headers: { Authorization: "Bearer keys9gKjERVN7YgGk" },
+        headers: {
+          "Authorization":
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IjE2MjgzIiwiZXhwIjoxNjQxOTc4MzU5LCJpc3MiOiJQcm9ncmFtbWluZyBDbGFzc3Jvb20ifQ.zY0_7FPY14jk8ZcOXJIBYAT7jmEN2hmeOv91l3j5yM8",
+          },
       };
-      const url =
-      "https://api.airtable.com/v0/appCvAxAr9rxmTWh4/ClassList?maxRecords=20&view=Grid%20view" ;
+      const url = "http://140.136.156.12:8080/teacher/HomePage1_s/one/";
       const result = await axios.get(url, axios_config);
       //console.log(result);
-      setCs(result.data.records);
+      // console.log("接到的值:"+result.data[0].cs_id);
+      setCs(result.data);
     }
-
     fetchData();
-  }, [modalVisible]);
+  }, [classes]);
+  
+  // console.log(cs);
 
   function hide() {
     setClasses({
@@ -65,26 +79,38 @@ export default function ClassList() {
     });
 
     setSelectedId("");
-    setModalVisible(true);
+    // setModalVisible(true);
+    setModalVisible2(true);
+  }
+
+  function hide2() {
+    setClasses({
+      Title: "",
+      Csid: "",
+    });
+    setSelectedId("");
+    setModalVisible2(false);
   }
 
   function update(id, index) {
     setClasses({
-      Title: cs[index].fields.Title,
-      Csid: cs[index].fields.Csid,
-      Teacher: cs[index].fields.Teacher,
+      Title: cs[index].cs_name,
+      Csid: cs[index].cs_id,
+      Teacher: cs[index].teacher_name,
     });
 
     setSelectedId(id);
     setModalVisible(true);
+
+    // navigation.navigate("FunctionList");
   }
 
   const Item = ({ index, item, onPress, style }) => (
     <TouchableOpacity onPress={onPress} style={[styles.item, style]}>
-      <Text>{index}</Text>
-      <Text style={styles.title}>{item.fields.Title}</Text>
-      <Text>{item.fields.Csid},</Text>
-      <Text>{item.fields.Teacher}</Text>
+      {/* <Text>{index}</Text> */}
+      <Text style={styles.title}>{cs[index].cs_id}</Text>
+      <Text>{cs[index].cs_name},</Text>
+      <Text>{cs[index].teacher_name}</Text>
     </TouchableOpacity>
   );
 
@@ -96,7 +122,11 @@ export default function ClassList() {
       <Item
         index={index}
         item={item}
-        onPress={() => update(item.id, index)}
+        onPress={() =>
+          navigation.navigate("FunctionList", {
+            Csid: cs[index].cs_id,
+          })
+        }
         style={{ backgroundColor }}
       />
     );
@@ -106,169 +136,30 @@ export default function ClassList() {
 
   return (
     <View style={styles.container2}>
-//       <FlatList
-//         data={cs}
-//         renderItem={renderItem}
-//         keyExtractor={(item, index) => "" + index}
-//       ></FlatList>
+      <FlatList
+        data={cs}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => "" + index}
+      ></FlatList>
 
+      <ClassView
+        modalVisible={modalVisible}
+        classes={classes}
+        id={selectedId}
+        hide={hide}
+      />
 
-      
+      <Fab onPress={() => add()}>
+        <Icon ios="ios-add" android="md-add" />
+      </Fab>
 
-//       <Fab onPress={() => add()}>
-//         <Icon ios="ios-add" android="md-add" />
-//       </Fab>
-
-//       <PersonAddEdit
-//         modalVisible={modalVisible}
-//         person={classes}
-//         id={selectedId}
-//         hide={hide}
-//       />
-    
-    
-    
-<Grid>
-        <Col>
-          <Row>
-            <Card
-              style={styles.classlist}
-              onPress={() => navigation.navigate("FunctionList")}
-            >
-              {/* <Card.Title
-              title="Card Title"
-              subtitle="Card Subtitle"
-              left={LeftContent}
-            /> */}
-              <Card.Content>
-                <Title>行動裝置程式設計</Title>
-                <Paragraph>吳濟聰老師</Paragraph>
-              </Card.Content>
-              {/* <Card.Cover source={{ uri: "https://picsum.photos/700" }} /> */}
-              {/* <Card.Actions>
-              <Button>Cancel</Button>
-              <Button>Ok</Button>
-            </Card.Actions> */}
-            </Card>
-          </Row>
-          <Row>
-            <Card
-              style={styles.classlist}
-              onPress={() => navigation.navigate("FunctionList")}
-            >
-              {/* <Card.Title
-              title="Card Title"
-              subtitle="Card Subtitle"
-              left={LeftContent}
-            /> */}
-              <Card.Content>
-                <Title>資料結構</Title>
-                <Paragraph>蔡幸蓁老師</Paragraph>
-              </Card.Content>
-              {/* <Card.Cover source={{ uri: "https://picsum.photos/700" }} /> */}
-              {/* <Card.Actions>
-              <Button>Cancel</Button>
-              <Button>Ok</Button>
-            </Card.Actions> */}
-            </Card>
-          </Row>
-        </Col>
-        <Col>
-          <Row>
-            <Card
-              style={styles.classlist}
-              onPress={() => navigation.navigate("FunctionList")}
-            >
-              {/* <Card.Title
-              title="Card Title"
-              subtitle="Card Subtitle"
-              left={LeftContent}
-            /> */}
-              <Card.Content>
-                <Title>UI/UX設計</Title>
-                <Paragraph>吳濟聰老師</Paragraph>
-              </Card.Content>
-              {/* <Card.Cover source={{ uri: "https://picsum.photos/700" }} /> */}
-              {/* <Card.Actions>
-              <Button>Cancel</Button>
-              <Button>Ok</Button>
-            </Card.Actions> */}
-            </Card>
-          </Row>
-          <Row>
-            <Card
-              style={styles.classlist}
-              onPress={() => navigation.navigate("FunctionList")}
-            >
-              {/* <Card.Title
-              title="Card Title"
-              subtitle="Card Subtitle"
-              left={LeftContent}
-            /> */}
-              <Card.Content>
-                <Title>系統分析</Title>
-                <Paragraph>吳濟聰老師</Paragraph>
-              </Card.Content>
-              {/* <Card.Cover source={{ uri: "https://picsum.photos/700" }} /> */}
-              {/* <Card.Actions>
-              <Button>Cancel</Button>
-              <Button>Ok</Button>
-            </Card.Actions> */}
-            </Card>
-
-            {/* <Card>
-            <Card.Title
-            title="Card Title"
-            subtitle="Card Subtitle"
-            left={LeftContent}
-            />
-            <Card.Content>
-            <Title>Card title</Title>
-            <Paragraph>Card content</Paragraph>
-            </Card.Content>
-            <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
-            <Card.Actions>
-            <Button>Cancel</Button>
-            <Button>Ok</Button>
-            </Card.Actions>
-            </Card>
-            </Col>
-            <Col>
-            <Card>
-            <Card.Title
-            title="Card Title"
-            subtitle="Card Subtitle"
-            left={LeftContent}
-            />
-            <Card.Content>
-            <Title>Card title</Title>
-            <Paragraph>Card content</Paragraph>
-            </Card.Content>
-            <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
-            <Card.Actions>
-            <Button>Cancel</Button>
-            <Button>Ok</Button>
-            </Card.Actions>
-            </Card>
-            <Card>
-            <Card.Title
-            title="Card Title"
-            subtitle="Card Subtitle"
-            left={LeftContent}
-            />
-            <Card.Content>
-            <Title>Card title</Title>
-            <Paragraph>Card content</Paragraph>
-            </Card.Content>
-            <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
-            <Card.Actions>
-            <Button>Cancel</Button>
-            <Button>Ok</Button>
-            </Card.Actions>
-          </Card> */}
-          </Row>
-        </Col>
-      </Grid>
+      {/* <PersonAddEdit
+        modalVisible={modalVisible}
+        person={classes}
+        id={selectedId}
+        hide={hide}
+      /> */}
+      <ClassAdd modalVisible2={modalVisible2} update={update} hide2={hide2} />
     </View>
   );
 }
