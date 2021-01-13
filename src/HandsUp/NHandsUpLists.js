@@ -10,9 +10,12 @@ import { acc } from 'react-native-reanimated';
 
 export default function MyComponent() {
   const [acceptances, setAcceptances] = useState([]);
-  const [modalVisible, setModalVisible] = useState(false);
-  const acceptanceList = ['std_id', 'std_name', 'accept_time', 'accept_state']
+  const [number, setNumber] = useState("");
+  const [status, setStatus] = useState("");
+  const [done,setDone] =useState(""); 
+
   console.log("MyComponent");
+
   useEffect(() => {
     console.log("useEffect in MyComponent");
     async function fetchData() {
@@ -30,9 +33,49 @@ export default function MyComponent() {
   }, [acceptances]);
 
 
-// const time = (item)=>{
-// var t = {item.fields.Time},
-// }
+  function handleSubmit(){
+    async function sendData(){
+        const handleSubmit={
+          records: [{
+            id: props.id,
+            fields: {
+                Number:number,
+                Name:"李佩倫",
+                HomeWork:"h1",
+                Status: status,
+                AcceptDone:"1",
+            }
+        }]
+        }
+        console.log(handleSubmit)
+
+        const axios_config = {
+            headers: {
+                'Authorization': 'Bearer key4eVi7GTb0FVNWK',
+                'Content-Type': 'application/json'}
+            }
+        ;
+        try {
+
+            const url="https://api.airtable.com/v0/appCvAxAr9rxmTWh4/Acceptance?maxRecords=50&view=Grid%20view";
+            const result = await axios.post(url, handleSubmit, axios_config);
+            setNumber("");
+            setContent("");
+            //props.hide2();
+          }
+
+        catch (e){
+              console.log("error:"+e);
+            }
+        }
+          sendData();
+          
+        }
+
+
+
+
+
   
  function time (item) {
     var t = item.fields.Time;
@@ -42,9 +85,18 @@ export default function MyComponent() {
     return (ttt[0])   
     }
 
+  const AcceptDone =({item}) => item.fields.AcceptDone;
+
+  function Done (item) {
+    var done = item.fields.AccepDone;
+    console.log(done);
+    return (done);
+  }
+
  const Item = ({ index, item}) => (
    
   <View style={styles.item}>
+   
     <View style={{width:90}}>
       <DataTable.Cell >{item.fields.Number}</DataTable.Cell>
     </View>
@@ -57,38 +109,41 @@ export default function MyComponent() {
     <View style={{width:40,backgroundColor:'#E7E6E1'}}>
       <DataTable.Cell >{item.fields.Status}</DataTable.Cell>
     </View>
-    {/* <View style={{width:90,backgroundColor:'pink'}}>
-      <Text >{item.fields.Number}</Text>
-    </View> 
-    <View style={{width:50,backgroundColor:'orange'}}> 
-      <Text >{item.fields.Name}</Text>
-    </View>
-    <View style={{width:120,backgroundColor:'pink'}}>
-      <Text>{item.fields.Time}</Text>
-    </View>
-    <View style={{width:50,paddingRight:15,backgroundColor:'orange'}}>
-      <Text>{item.fields.Status}</Text>
-    </View> */}
-    </View>
-  
-  //   <TouchableOpacity  style={ styles.openButton}>
-  //   <Text style={styles.textStyle}>{item.fields.Number}</Text>
-  //   <Text style={styles.textStyle}>{item.fields.Name}</Text>
-  //   <Text style={styles.textStyle}>{item.fields.Time}</Text>
-  //   <Text style={styles.textStyle}>{item.fields.Status}</Text>
-  // </TouchableOpacity>
+
+  </View>
+ 
   );
 
 const renderItem = ({ item, index }) => {
 
    return (
-     <DataTable.Row>
-      <Item
-        index={index}
-        item={item}
-        style={styles.items}
-      />
-   </DataTable.Row>
+//      <DataTable.Row>
+//  { Done(item) == "0"?
+//       <Item
+//         index={index}
+//         item={item}
+//         style={styles.items}
+//       />:
+//       <Item
+//         index={index}
+//         item={item}
+//         style={styles.items}
+//       />}
+//    </DataTable.Row>
+
+
+<View>
+  {acceptances.map((accpetance,index) => Done ==="0")?(
+      <DataTable.Row>
+          <Item
+            index={index}
+            item={item}
+            style={styles.items}
+          />
+      </DataTable.Row>)
+      :<div></div>
+      }
+</View>
   );
 };
 
@@ -132,7 +187,7 @@ const renderItem = ({ item, index }) => {
     <FlatList
       data={acceptances}
       renderItem={renderItem}>
-      </FlatList>
+    </FlatList>
 
 
 
@@ -149,7 +204,7 @@ const renderItem = ({ item, index }) => {
 
     <View style={styles.container2}>
       <View style={styles.fixToText}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
           <Text style={styles.buttonText}>舉手驗收</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button}>
