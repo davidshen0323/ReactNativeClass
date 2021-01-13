@@ -136,7 +136,7 @@ const Item = ({ index, item, onPress, style }) => (
     
 const renderItem = ({ item, index }) => {
 
-  const backgroundColor = item.id === selectedId ? "#f9c2ff" : "#afdee3";
+  const backgroundColor = item.id === selectedId ? "#f8b62b" : "#f8b62b";
 
 
   return (
@@ -187,6 +187,7 @@ const renderItem = ({ item, index }) => {
 
       <TextInput
         multiline
+        value={message}
         style={styles.input}
         placeholder='請輸入內文'
         onChangeText={(newmessage) => setMessage(newmessage)}/>

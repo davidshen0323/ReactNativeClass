@@ -15,7 +15,7 @@ const LeftContent = (props) => <Avatar.Icon {...props} icon="folder" />;
 export default function FunctionList({ route }) {
 
 
-  const { Csid } = route.params;
+  const { Csid  } = route.params;
  
   const Tab = createBottomTabNavigator();
 
@@ -29,10 +29,8 @@ export default function FunctionList({ route }) {
     // </View>
 
     <Tab.Navigator>
-
       <Tab.Screen name="HandsUp" component={HandsUp} initialParams={{Csid}}/>
       <Tab.Screen name="Announcement" component={Announcement} initialParams={{Csid}} />
-
       <Tab.Screen name="Comment" component={Comment} initialParams={{Csid}}/>
       <Tab.Screen name="SignOut" component={SignOut} />
     </Tab.Navigator>
