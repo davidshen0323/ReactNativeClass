@@ -8,7 +8,7 @@ import CommentboxList from "./CommentboxList";
 import { Avatar} from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 
-export default function Commentbox() {
+export default function Commentbox({route}) {
 
    const[commentboxs, setCommentboxs] = useState([]);
    const [modalVisible, setModalVisible] = useState(false);
@@ -18,7 +18,9 @@ export default function Commentbox() {
     Content: "",
   });
    const [list, setList] = useState([]);
-   
+
+   const [csid, setCsid] = useState(route.params.Csid);
+    console.log(csid);
 
   useEffect(() => {
     async function fetchData() {

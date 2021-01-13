@@ -9,7 +9,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const LeftContent = (props) => <Avatar.Icon {...props} icon="folder" />;
 
-export default function HandsUpWork() {
+export default function HandsUpWork({route}) {
 
    const [works, setWorks] = useState([]);
    const [modalVisible, setModalVisible] = useState(false);
@@ -17,7 +17,8 @@ export default function HandsUpWork() {
    const [newworks, setNewworks] = useState({
     Title:"",
   });
-   
+  const [csid, setCsid] = useState(route.params.Csid);
+  console.log(csid);
 
   useEffect(() => {
     async function fetchData() {
