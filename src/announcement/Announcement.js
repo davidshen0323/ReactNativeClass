@@ -30,7 +30,7 @@ export default function Announcement({route}) {
 
       async function fetchData () {
         const axios_config = {
-          headers: {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IjE2MjgzIiwiZXhwIjoxNjQxOTc4MzU5LCJpc3MiOiJQcm9ncmFtbWluZyBDbGFzc3Jvb20ifQ.zY0_7FPY14jk8ZcOXJIBYAT7jmEN2hmeOv91l3j5yM8'}}
+          headers: {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IjE2MjgzIiwiZXhwIjoxNjQyMDA3MDI0LCJpc3MiOiJQcm9ncmFtbWluZyBDbGFzc3Jvb20ifQ.0GFboAK1xIDIZGYLaWPMOP6Boq8gp2gI_LggOwpQLZI'}}
         ;
   
         const url=`http://140.136.156.12:8080/teacher/announcement/`+Csid+`/get/`;
@@ -82,14 +82,20 @@ export default function Announcement({route}) {
       setModalVisible3(false);
       
     }
-    function update(id, index){
+  
+    function update(index){
+    
       setAnnouncement({
         Title:announcements[index].at_title,
-        Content:announcements[index].at_content
+        Content:announcements[index].at_content,
+        at_id: announcements[index].at_id,
       });
   
-      setSelectedId(id);
+      
+      setSelectedId(announcements[index].at_id);
+      
       console.log("我選的公告id "+selectedId+"~");
+      console.log("ATID~~"+announcements[index].at_id)
       setModalVisible(true);
     }
   
@@ -99,8 +105,7 @@ export default function Announcement({route}) {
         Content:announcements[index].at_content,
         at_id: announcements[index].at_id,
       });
-      console.log("announcements = "+announcements)
-      console.log("ATID~~"+announcements[index].at_id)
+      
       setSelectedId(announcements[index].at_id);
       setModalVisible3(true);
     }
@@ -122,7 +127,7 @@ export default function Announcement({route}) {
       <Item
         index={index}
         item={item}
-        onPress={() => update(item.selectedId, index)}
+        onPress={() => update(index)}
         onLongPress={() => Delete(index)}
         style={{backgroundColor}}
       />
@@ -141,7 +146,7 @@ export default function Announcement({route}) {
             renderItem = {renderItem}
             keyExtractor={(item, index) => ""+index}>
         </FlatList>
-        <AnnouncementView modalVisible = {modalVisible} announcement = {announcement} id={selectedId} hide={hide}/> 
+        <AnnouncementView modalVisible = {modalVisible} announcement = {announcement} Csid={Csid} id={selectedId} hide={hide}/> 
         <AnnouncementDelete modalVisible3 = {modalVisible3} Delete = {Delete} announcement = {announcement} Csid={Csid} id={selectedId} hide3={hide3}/> 
         <Fab style={styles.fab} onPress={() => add()}>
           <Icon ios="ios-add" android="md-add" />
