@@ -14,8 +14,7 @@ export default function AnnouncementAdd(props) {
   function add(){
     async function sendData(){
         const newAnnouncement={
-            // cs_id: props.Csid,
-            cs_id: "CSD125",
+            cs_id: props.Csid,
             at_title: title,
             at_content: content
         }

@@ -7,7 +7,7 @@ import SignOut from "../account/SignOut";
 import Announcement from "../announcement/Announcement";
 import Comment from "../commentbox/Commentbox";
 
-import HandsUp from "../HandsUp/HandsUpWork";
+import HandsUp from "../Teacher/THandsUpWork";
 
 
 const LeftContent = (props) => <Avatar.Icon {...props} icon="folder" />;
