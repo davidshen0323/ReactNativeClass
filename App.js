@@ -292,5 +292,3 @@ async function registerForPushNotificationsAsync() {
 }
 
 export default App;
-
-

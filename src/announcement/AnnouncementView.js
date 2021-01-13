@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Alert, TextInput, StyleSheet, Modal , View, Text, TouchableHighlight} from 'react-native';
+import { Button,Alert, TextInput, StyleSheet, Modal , View, Text, TouchableHighlight} from 'react-native';
 import axios from 'axios';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Item } from 'native-base';
@@ -18,6 +18,7 @@ export default function AnnouncementView(props) {
     }, [props.id]);
 
     function update() {
+
         async function sendData() {
             // if id exists, assign a newAnnouncement with id
             // else assign a newAnnouncement without id
@@ -44,7 +45,7 @@ export default function AnnouncementView(props) {
                    
                     setTitle("");
                     setContent("");
-                // console.log(result.data.id);
+                console.log(result.data.id);
 
                 props.hide();
             }
@@ -59,18 +60,21 @@ export default function AnnouncementView(props) {
 
     return (
 
-        <Modal animationType="slide" transparent={true} visible={props.modalVisible} onRequestClose={() => {Alert.alert("Modal has been closed."); }}>
+        <Modal 
+            animationType="slide"
+            transparent={true}
+            visible={props.modalVisible}
+            onRequestClose={() => {
+                Alert.alert("Modal has been closed.");
+              }}>
             <View style={styles.centeredView2}>
                 <View style={styles.modalView}>
-                    <TextInput placeholder="標題" style={styles.modalText} value={title} onChangeText={text => setTitle(text)} />
-                    <TextInput placeholder="內容" style={styles.modalText} value={content} onChangeText={text => setContent(text)} />
-                    {/* <Text style={styles.modalText}>*點擊即可修改公告</Text> */}
-                        <TouchableHighlight style={styles.openButton} onPress={update}>
-                            <Text style={styles.textStyle}>確認修改</Text>
-                        </TouchableHighlight>
-                        <TouchableHighlight style={styles.openButton} onPress={props.hide}>
-                            <Text style={styles.textStyle}>關閉公告</Text>
-                        </TouchableHighlight>
+                <TextInput placeholder="標題" style={styles.modalText} value={title} onChangeText={text => setTitle(text)} />
+                <TextInput placeholder="內容" style={styles.modalText} value={content} onChangeText={text => setContent(text)} />
+                <TouchableHighlight style={styles.openButton} onPress={props.hide}>
+                    <Text style={styles.textStyle}>關閉公告</Text>
+                </TouchableHighlight>
+                {/* <Button style={styles.openButton} onPress={update} title="確定" /> */}
                 </View>
             </View>
         </Modal>

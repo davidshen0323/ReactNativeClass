@@ -82,14 +82,18 @@ export default function Announcement({route}) {
       setModalVisible3(false);
       
     }
+  
     function update(index){
+    
       setAnnouncement({
         Title:announcements[index].at_title,
         Content:announcements[index].at_content,
         at_id: announcements[index].at_id,
       });
   
+      
       setSelectedId(announcements[index].at_id);
+      
       console.log("我選的公告id "+selectedId+"~");
       console.log("ATID~~"+announcements[index].at_id)
       setModalVisible(true);

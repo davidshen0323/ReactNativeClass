@@ -1,9 +1,14 @@
 import * as React from 'react';
 import { View, StyleSheet, Dimensions,Text,ImageBackground } from 'react-native';
 import { TabView, SceneMap } from 'react-native-tab-view';
-import HandsUpLists from './NHandsUpLists';
+//import HandsUpLists from './NHandsUpLists';
+import HandsUpLists from '../Teacher/THandsUpLists';
 import HandsUpFinish from './HandsUpFinish';
  
+//const [Csid,setCsid] =useState(props.Csid);
+//console.log("選擇的csid"+Csid);
+
+
 const FirstRoute = () => (
   // <View style={[styles.scene, { backgroundColor: '#ff4081' }]}>
   //     <Text>hehe</Text>
