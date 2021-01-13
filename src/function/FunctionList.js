@@ -31,7 +31,7 @@ export default function FunctionList({ route }) {
     <Tab.Navigator>
       <Tab.Screen name="HandsUp" component={HandsUp} />
       <Tab.Screen name="Announcement" component={Announcement} />
-      <Tab.Screen name="Comment" component={Comment} />
+      <Tab.Screen name="Comment" component={Comment} initialParams={{Csid}}/>
       <Tab.Screen name="SignOut" component={SignOut} />
     </Tab.Navigator>
   );
