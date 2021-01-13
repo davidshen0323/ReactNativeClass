@@ -9,30 +9,41 @@ export default function AnnouncementDelete(props) {
 
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
-
+    const [Csid,setCsid] = useState(props.Csid);
     // const [modalVisible, setModalVisible] = useState(true);
 
     useEffect(() => {
         setTitle(props.announcement.Title);
         setContent(props.announcement.Content);
     }, [props]);
-
     function Delete() {
 
         async function sendData() {
             // if id exists, assign a newAnnouncement with id
             // else assign a newAnnouncement without id
-            const deleteAnnouncement={
-                at_id: props.id,
-                cs_id: "CSD125",
-            }
-            console.log(deleteAnnouncement);
+            
+            // const deleteAnnouncement={
+            //     at_id: props.id,
+            //     cs_id: "CSD125",
+            // }
+            // console.log(deleteAnnouncement);
 
-            const axios_config = {
+            // const axios_config = {
+            //     headers: {
+            //         'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IjE2MjgzIiwiZXhwIjoxNjQxOTc4MzU5LCJpc3MiOiJQcm9ncmFtbWluZyBDbGFzc3Jvb20ifQ.zY0_7FPY14jk8ZcOXJIBYAT7jmEN2hmeOv91l3j5yM8',
+            //         'Content-Type': 'application/json'
+            //     }
+            // }
+
+            let config = { 
                 headers: {
-                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IjE2MjgzIiwiZXhwIjoxNjQxOTc4MzU5LCJpc3MiOiJQcm9ncmFtbWluZyBDbGFzc3Jvb20ifQ.zY0_7FPY14jk8ZcOXJIBYAT7jmEN2hmeOv91l3j5yM8',
+                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IjE2MjgzIiwiZXhwIjoxNjQxOTc4MzU5LCJpc3MiOiJQcm9ncmFtbWluZyBDbGFzc3Jvb20ifQ.zY0_7FPY14jk8ZcOXJIBYAT7jmEN2hmeOv91l3j5yM8',
                     'Content-Type': 'application/json'
-                }
+                },
+                data: { //! Take note of the data keyword. This is the request body.
+                    at_id: props.id,
+                    cs_id: Csid,
+                } 
             }
                 ;
             try {
@@ -42,7 +53,9 @@ export default function AnnouncementDelete(props) {
                 // if id exists, call put
                 // else call post
                 
-                await axios.delete(url, deleteAnnouncement, axios_config) ; 
+                await axios.delete(url, config) ; 
+                // await axios.delete(url, {axios_config, deleteAnnouncement})
+
                    
                     setTitle("");
                     setContent("");
