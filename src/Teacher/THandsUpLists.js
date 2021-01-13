@@ -18,45 +18,47 @@ export default function MyComponent(props) {
   //const [Csid,setCsid] =useState(props.Csid);
   //console.log("舉手功能的csid"+Csid)
 
-  console.log("MyComponent");
-
-  // useEffect(() => {
-  //   console.log("useEffect in MyComponent");
-  //   async function fetchData() {
-  //     const axios_config = {
-  //       headers: { Authorization: "Bearer keys9gKjERVN7YgGk" },
-  //     };
-  //     const url =
-  //     "https://api.airtable.com/v0/appCvAxAr9rxmTWh4/Acceptance?maxRecords=50&view=Grid%20view";
-  //     const result = await axios.get(url, axios_config);
-  //     //console.log(result);
-  //     setAcceptances([...result.data.records]);
-  //   }
-
-  //   fetchData();
-  // }, [acceptances]);
+  // console.log("MyComponent");
 
   useEffect(() => {
     async function fetchData() {
       const axios_config = {
-        headers: {
-          "Authorization":
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IjE2MjgzIiwiZXhwIjoxNjQxOTc4MzU5LCJpc3MiOiJQcm9ncmFtbWluZyBDbGFzc3Jvb20ifQ.zY0_7FPY14jk8ZcOXJIBYAT7jmEN2hmeOv91l3j5yM8",
-          },
+        headers: { Authorization: "Bearer keys9gKjERVN7YgGk" },
       };
       const url =
-       //"https://api.airtable.com/v0/appCvAxAr9rxmTWh4/WorkList?maxRecords=50&view=Grid%20view";
-      "http://140.136.156.12:8080/teacher/acceptance/hw/CSD129/cc";
+      "https://api.airtable.com/v0/appCvAxAr9rxmTWh4/Acceptance?maxRecords=50&view=Grid%20view";
       const result = await axios.get(url, axios_config);
-      //console.log(url);
-      setAcceptances(result.data);
-      console.log("我接的值"+result.data+"~")
       //console.log(result);
-      //setWorks(result.data.records);
+      setAcceptances([...result.data.records]);
     }
-
+    
     fetchData();
-  }, [modalVisible]);
+  }, []);
+  
+  // console.log("useEffect in MyComponent");
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     const axios_config = {
+  //       headers: {
+  //         "Authorization":
+  //           // "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IjE2MjgzIiwiZXhwIjoxNjQxOTc4MzU5LCJpc3MiOiJQcm9ncmFtbWluZyBDbGFzc3Jvb20ifQ.zY0_7FPY14jk8ZcOXJIBYAT7jmEN2hmeOv91l3j5yM8",
+  //           "Bearer keys9gKjERVN7YgGk",
+            
+  //         },
+  //     };
+  //     const url =
+  //      "https://api.airtable.com/v0/appCvAxAr9rxmTWh4/WorkList?maxRecords=50&view=Grid%20view";
+  //     // "http://140.136.156.12:8080/teacher/acceptance/hw/CSD129/cc";
+  //     const result = await axios.get(url, axios_config);
+  //     //console.log(url);
+  //     // setAcceptances(result.data);
+  //     console.log("我接的值"+result.data+"~")
+  //     //console.log(result);
+  //     setWorks(result.data.records);
+  //   }
+
+  //   fetchData();
+  // }, [modalVisible]);
 
 
   function handleDelete(){
@@ -149,7 +151,7 @@ const Item = ({ index, item,onPress}) => (
   <View style={styles.item}>
    
     <View style={{width:90}}>
-      <DataTable.Cell >{acceptances[index].}</DataTable.Cell>
+      <DataTable.Cell >{item.fields.Number}</DataTable.Cell>
     </View>
     <View style={{width:55,backgroundColor:'#E7E6E1'}}>
       <DataTable.Cell >{item.fields.Name}</DataTable.Cell>
