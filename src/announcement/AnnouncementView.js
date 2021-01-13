@@ -10,6 +10,7 @@ export default function AnnouncementView(props) {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [modalVisible, setModalVisible] = useState(true);
+    const [Csid,setCsid] = useState(props.Csid);
 
     useEffect(() => {
         setTitle(props.announcement.Title);
@@ -20,37 +21,26 @@ export default function AnnouncementView(props) {
         async function sendData() {
             // if id exists, assign a newAnnouncement with id
             // else assign a newAnnouncement without id
-            const newAnnouncement = props.id
-                ? {
-                    records: [{
-                        id: props.id,
-                        fields: {
-                            Title:title,
-                            Content: content
-                        }
-                    }]
-                }
-                : {
-                    fields: {
-                        Title:title,
-                        Content: content
-                    }
-                }
+            // const updateAnnouncement = props.id
+            const updateAnnouncement={
+                at_id: props.id,
+                cs_id: Csid,
+                at_title: title,
+                at_content: content
+            }
+                console.log(updateAnnouncement);
 
             const axios_config = {
                 headers: {
-                    'Authorization': 'Bearer key4eVi7GTb0FVNWK',
+                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IjE2MjgzIiwiZXhwIjoxNjQyMDA3MDI0LCJpc3MiOiJQcm9ncmFtbWluZyBDbGFzc3Jvb20ifQ.0GFboAK1xIDIZGYLaWPMOP6Boq8gp2gI_LggOwpQLZI',
                     'Content-Type': 'application/json'
                 }
             }
                 ;
             try {
-                const url = "https://api.airtable.com/v0/appCvAxAr9rxmTWh4/Announcement?maxRecords=30&view=Grid%20view";
-
-                // if id exists, call put
-                // else call post
+                const url = "http://140.136.156.12:8080/teacher/announcement/update/";
                 
-                const result = props.id ? await axios.put(url, newAnnouncement, axios_config) : await axios.post(url, newAnnouncement, axios_config); 
+                const result = await axios.put(url, updateAnnouncement, axios_config); 
                    
                     setTitle("");
                     setContent("");
