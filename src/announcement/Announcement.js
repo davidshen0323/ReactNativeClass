@@ -6,7 +6,9 @@ import { Icon, Fab } from "native-base";
 import AnnouncementAdd from './AnnouncementAdd';
 import AnnouncementDelete from './AnnouncementDelete';
 
+
 export default function Announcement({route}) {
+
 
     const [announcements, setAnnouncements] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
@@ -15,6 +17,7 @@ export default function Announcement({route}) {
     const [selectedId, setSelectedId] = useState(null);
     const [announcement, setAnnouncement] = useState({
       Title:"",
+
       Content:"",
       at_id: ""}
     );
@@ -22,6 +25,7 @@ export default function Announcement({route}) {
     const [Csid, setCsid] = useState(route.params.Csid);
     console.log("公告的id "+Csid);
     
+
     useEffect(() => {
 
       async function fetchData () {
