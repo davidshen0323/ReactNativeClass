@@ -20,45 +20,45 @@ export default function MyComponent(props) {
 
   // console.log("MyComponent");
 
-  useEffect(() => {
-    async function fetchData() {
-      const axios_config = {
-        headers: { Authorization: "Bearer keys9gKjERVN7YgGk" },
-      };
-      const url =
-      "https://api.airtable.com/v0/appCvAxAr9rxmTWh4/Acceptance?maxRecords=50&view=Grid%20view";
-      const result = await axios.get(url, axios_config);
-      //console.log(result);
-      setAcceptances([...result.data.records]);
-    }
-    
-    fetchData();
-  }, []);
-  
-  // console.log("useEffect in MyComponent");
   // useEffect(() => {
   //   async function fetchData() {
   //     const axios_config = {
-  //       headers: {
-  //         "Authorization":
-  //           // "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IjE2MjgzIiwiZXhwIjoxNjQxOTc4MzU5LCJpc3MiOiJQcm9ncmFtbWluZyBDbGFzc3Jvb20ifQ.zY0_7FPY14jk8ZcOXJIBYAT7jmEN2hmeOv91l3j5yM8",
-  //           "Bearer keys9gKjERVN7YgGk",
-            
-  //         },
+  //       headers: { Authorization: "Bearer keys9gKjERVN7YgGk" },
   //     };
   //     const url =
-  //      "https://api.airtable.com/v0/appCvAxAr9rxmTWh4/WorkList?maxRecords=50&view=Grid%20view";
-  //     // "http://140.136.156.12:8080/teacher/acceptance/hw/CSD129/cc";
+  //     "https://api.airtable.com/v0/appCvAxAr9rxmTWh4/Acceptance?maxRecords=50&view=Grid%20view";
   //     const result = await axios.get(url, axios_config);
-  //     //console.log(url);
-  //     // setAcceptances(result.data);
-  //     console.log("我接的值"+result.data+"~")
   //     //console.log(result);
-  //     setWorks(result.data.records);
+  //     setAcceptances([...result.data.records]);
   //   }
-
+    
   //   fetchData();
-  // }, [modalVisible]);
+  // }, []);
+  
+  console.log("useEffect in MyComponent");
+  useEffect(() => {
+    async function fetchData() {
+      const axios_config = {
+        headers: {
+          "Authorization":
+             "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IjE2MjgzIiwiZXhwIjoxNjQxOTc4MzU5LCJpc3MiOiJQcm9ncmFtbWluZyBDbGFzc3Jvb20ifQ.zY0_7FPY14jk8ZcOXJIBYAT7jmEN2hmeOv91l3j5yM8",
+            //"Bearer keys9gKjERVN7YgGk",
+            
+          },
+      };
+      const url =
+       //"https://api.airtable.com/v0/appCvAxAr9rxmTWh4/WorkList?maxRecords=50&view=Grid%20view";
+      "http://140.136.156.12:8080/teacher/acceptance/hw/CSD129/Os2";
+      const result = await axios.get(url, axios_config);
+      //console.log(url);
+       setAcceptances(result.data);
+      console.log("我接的值"+result+"~")
+      //console.log(result);
+      //setWorks(result.data.records);
+    }
+
+    fetchData();
+  }, [modalVisible]);
 
 
   function handleDelete(){
@@ -146,21 +146,36 @@ export default function MyComponent(props) {
  
 //   );
 
-const Item = ({ index, item,onPress}) => (
+const Item = ({ index, item, onPress}) => (
    
   <View style={styles.item}>
    
     <View style={{width:90}}>
-      <DataTable.Cell >{item.fields.Number}</DataTable.Cell>
+      <DataTable.Cell >{acceptances[index].std_id}</DataTable.Cell>
     </View>
     <View style={{width:55,backgroundColor:'#E7E6E1'}}>
-      <DataTable.Cell >{item.fields.Name}</DataTable.Cell>
+      <DataTable.Cell >{acceptances[index].std_name}</DataTable.Cell>
     </View>
     <View style={{width:70}}>
-      <DataTable.Cell >{time(item)}</DataTable.Cell>
+      <DataTable.Cell >{acceptances[index].accept_time}</DataTable.Cell>
     </View>
     <View style={{width:40,backgroundColor:'#E7E6E1'}}>
-      <DataTable.Cell >{item.fields.Status}</DataTable.Cell>
+      <DataTable.Cell>
+      {acceptances[index].accept_state}
+      {/* <Text> */}
+
+      {/* if({acceptances[index].accept_state} === 0) */}
+      {
+        // <Text>發問</Text>
+      }
+      {/* else if({acceptances[index].accept_state} === 1) */}
+      {
+        // <Text>驗收</Text>
+      }
+      {/* </Text> */}
+      {/* {acceptances[index].accept_state == 0 ? <Text>uuuu</Text>:<Text>ttt</Text>}
+      <DataTable.Cell >{acceptances[index].accept_state == 0 ? <Text>uuuu</Text>:<Text>ttt</Text>}</DataTable.Cell> */}
+      </DataTable.Cell>
     </View>
     <View style={{width:40}}>
       <DataTable.Cell >

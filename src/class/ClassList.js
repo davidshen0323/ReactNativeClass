@@ -47,7 +47,7 @@ export default function ClassList({ route }) {
       setCs(result.data);
     }
     fetchData();
-  }, [classes]);
+  }, [modalVisible2]);
   
   // console.log(cs);
 
