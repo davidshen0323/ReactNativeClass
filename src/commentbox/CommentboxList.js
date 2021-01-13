@@ -187,6 +187,7 @@ const renderItem = ({ item, index }) => {
 
       <TextInput
         multiline
+        value={message}
         style={styles.input}
         placeholder='請輸入內文'
         onChangeText={(newmessage) => setMessage(newmessage)}/>

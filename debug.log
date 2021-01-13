@@ -5,3 +5,9 @@
 [0106/093520.202:ERROR:directory_reader_win.cc(43)] FindFirstFile: ç³»çµ±æ‰¾ä¸åˆ°æŒ‡å®šçš„è·¯å¾‘ã€‚ (0x3)[0111/232759.230:ERROR:directory_reader_win.cc(43)] FindFirstFile: ï¿½tï¿½Î§ä¤£ï¿½ï¿½ï¿½ï¿½wï¿½ï¿½ï¿½ï¿½ï¿½|ï¿½C (0x3)
 [0112/092500.240:ERROR:directory_reader_win.cc(43)] FindFirstFile: ï¿½tï¿½Î§ä¤£ï¿½ï¿½ï¿½ï¿½wï¿½ï¿½ï¿½ï¿½ï¿½|ï¿½C (0x3)
 [0112/164130.131:ERROR:directory_reader_win.cc(43)] FindFirstFile: ¨t²Î§ä¤£¨ì«ü©wªº¸ô®|¡C (0x3)
+[0112/225318.734:ERROR:directory_reader_win.cc(43)] FindFirstFile: ¨t²Î§ä¤£¨ì«ü©wªº¸ô®|¡C (0x3)
+[0113/021549.059:ERROR:process_info.cc(329)] VirtualQueryEx: ¦s¨ú³Q©Ú¡C (0x5)
+[0113/021549.059:ERROR:process_info.cc(556)] ReadMemoryInfo failed
+[0113/021549.059:ERROR:process_reader_win.cc(123)] NtOpenThread: {©Úµ´¦s¨ú} µ{§Ç¤w½Ğ¨D¦s¨ú¤@ª«¥ó¡A¦ı¥¼³Q±Â»P¦s¨úÅv¡C (0xc0000022)
+[0113/021549.059:ERROR:scoped_process_suspend.cc(40)] NtResumeProcess: ¹Á¸Õ¦s¨ú²{¦³ªº³B²zµ{§Ç¡C (0xc000010a)
+[0113/021549.059:ERROR:exception_snapshot_win.cc(99)] thread ID 19736 not found in process

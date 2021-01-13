@@ -4,29 +4,34 @@ import { Icon, Fab } from "native-base";
 import axios from "axios";
 import CommentboxAddEdit from "./CommentboxAddEdit";
 import CommentboxList from "./CommentboxList";
+import CommentboxDelete from "./CommentboxDelete";
 // import styles from "../styles";
 import { Avatar} from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 
-export default function Commentbox() {
+export default function Commentbox({route}) {
 
    const[commentboxs, setCommentboxs] = useState([]);
    const [modalVisible, setModalVisible] = useState(false);
+   const [modalVisible2, setModalVisible2] = useState(false);
    const [selectedId, setSelectedId] = useState(null);
    const [commentbox, setCommentbox] = useState({
     Title:"",
     Content: "",
   });
+
    const [list, setList] = useState([]);
+   const [Csid, setCsid] = useState(route.params.Csid);
+   console.log("公告的id "+ Csid);
    
 
   useEffect(() => {
     async function fetchData() {
       const axios_config = {
-        headers: { Authorization: "Bearer keys9gKjERVN7YgGk" },
+        headers: { 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IjE2MjgzIiwiZXhwIjoxNjQxOTc4MzU5LCJpc3MiOiJQcm9ncmFtbWluZyBDbGFzc3Jvb20ifQ.zY0_7FPY14jk8ZcOXJIBYAT7jmEN2hmeOv91l3j5yM8' },
       };
       const url =
-        "https://api.airtable.com/v0/appCvAxAr9rxmTWh4/Commentbox?maxRecords50&=view=Grid%20view";
+        "https://140.136.156.12/teacher/solvedquestion/all/CSD129/get";
       const result = await axios.get(url, axios_config);
       //console.log(result);
       setCommentboxs(result.data.records);
@@ -38,6 +43,15 @@ export default function Commentbox() {
 
     
   function hide() {
+    setCommentbox({
+        Title:"",
+        Content: "",
+    });
+    setSelectedId("");
+    setModalVisible(false);
+  }
+
+  function hide2() {
     setCommentbox({
         Title:"",
         Content: "",
@@ -73,6 +87,17 @@ export default function Commentbox() {
     setModalVisible(true);
 
     navigation.navigate("CommentboxList");
+  }
+
+
+  function Delete(id, index){
+    setCommentbox({
+      Title: commentboxs[index].fields.Title,
+      City: commentboxs[index].fields.Content,
+    });
+
+    setSelectedId(id);
+    setModalVisible2(true);
   }
 
 
@@ -112,16 +137,14 @@ export default function Commentbox() {
           {
             Title: list[index].fields.Title,
             Content: list[index].fields.Content,
-            
           });
-
           console.log("\n\n\n\n");
           console.log(list[index].fields.Title);
           console.log(list[index].fields.Content);
           console.log("\n\n\n\n");
         }}
           //id:item.id
-
+        onLongPress={() => Delete(item.id, index)}
         style={{ backgroundColor }}
       />
       
@@ -136,7 +159,6 @@ export default function Commentbox() {
   return (
     
     <View style={styles.container2}>
-
       <Text style={styles.textCommentbox}>討論區</Text>
       {/* <ImagesExample /> */}
       
@@ -161,6 +183,14 @@ export default function Commentbox() {
         commentbox={commentbox}
         id={selectedId}
         hide={hide}
+      />
+
+      <CommentboxDelete
+        modalVisible2 = {modalVisible2} 
+        Delete = {Delete} 
+        commentbox = {commentbox} 
+        id={selectedId} 
+        hide2={hide2}
       />
       
     </View>
