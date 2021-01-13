@@ -33,7 +33,7 @@ export default function Announcement({route}) {
           headers: {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IjE2MjgzIiwiZXhwIjoxNjQxOTc4MzU5LCJpc3MiOiJQcm9ncmFtbWluZyBDbGFzc3Jvb20ifQ.zY0_7FPY14jk8ZcOXJIBYAT7jmEN2hmeOv91l3j5yM8'}}
         ;
   
-        const url=`http://140.136.156.12:8080/teacher/announcement/CSD125/get/`;
+        const url=`http://140.136.156.12:8080/teacher/announcement/`+Csid+`/get/`;
         const result = await axios.get(url, axios_config);
         console.log(result.data);
         setAnnouncements(result.data);
@@ -82,13 +82,13 @@ export default function Announcement({route}) {
       setModalVisible3(false);
       
     }
-    function update(at_id, index){
+    function update(id, index){
       setAnnouncement({
         Title:announcements[index].at_title,
         Content:announcements[index].at_content
       });
   
-      // setSelectedId(announcements[index].at_id);
+      setSelectedId(id);
       console.log("我選的公告id "+selectedId+"~");
       setModalVisible(true);
     }
@@ -142,7 +142,7 @@ export default function Announcement({route}) {
             keyExtractor={(item, index) => ""+index}>
         </FlatList>
         <AnnouncementView modalVisible = {modalVisible} announcement = {announcement} id={selectedId} hide={hide}/> 
-        <AnnouncementDelete modalVisible3 = {modalVisible3} Delete = {Delete} announcement = {announcement} id={selectedId} hide3={hide3}/> 
+        <AnnouncementDelete modalVisible3 = {modalVisible3} Delete = {Delete} announcement = {announcement} Csid={Csid} id={selectedId} hide3={hide3}/> 
         <Fab style={styles.fab} onPress={() => add()}>
           <Icon ios="ios-add" android="md-add" />
         </Fab>
