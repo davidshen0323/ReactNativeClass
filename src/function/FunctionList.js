@@ -19,7 +19,7 @@ export default function FunctionList({ route }) {
  
   const Tab = createBottomTabNavigator();
 
-  console.log(Csid);
+  // console.log(Csid);
 
   return (
 
@@ -29,9 +29,9 @@ export default function FunctionList({ route }) {
     // </View>
 
     <Tab.Navigator>
-      <Tab.Screen name="HandsUp" component={HandsUp} />
-      <Tab.Screen name="Announcement" component={Announcement} />
-      <Tab.Screen name="Comment" component={Comment} />
+      <Tab.Screen name="HandsUp" component={HandsUp} initialParams={{Csid}}/>
+      <Tab.Screen name="Announcement" component={Announcement} initialParams={{Csid}} />
+      <Tab.Screen name="Comment" component={Comment} initialParams={{Csid}}/>
       <Tab.Screen name="SignOut" component={SignOut} />
     </Tab.Navigator>
   );

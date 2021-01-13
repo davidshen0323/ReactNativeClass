@@ -6,7 +6,7 @@ import { Icon, Fab } from "native-base";
 import AnnouncementAdd from './AnnouncementAdd';
 import AnnouncementDelete from './AnnouncementDelete';
 
-export default function Announcement() {
+export default function Announcement({ route }) {
 
     const [announcements, setAnnouncements] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
@@ -17,6 +17,8 @@ export default function Announcement() {
       Title:"",
       Content:""}
     );//temp variable for edit
+    const [csid, setCsid] = useState(route.params.Csid);
+    console.log(csid);
 
     useEffect(() => {
 

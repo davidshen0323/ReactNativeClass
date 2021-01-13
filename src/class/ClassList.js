@@ -15,7 +15,7 @@ import ClassView from "../class/ClassView";
 
 const LeftContent = (props) => <Avatar.Icon {...props} icon="folder" />;
 
-export default function ClassList() {
+export default function ClassList({ route }) {
   const [cs, setCs] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisible2, setModalVisible2] = useState(false);
@@ -27,20 +27,29 @@ export default function ClassList() {
     Teacher: "",
   }); //temp variable for edit
 
+  const { Token } = route.params;
+  const { Role } = route.params;
+  // console.log("接到token:" + Token);
+  // console.log("接到role:" + Role);
+
   useEffect(() => {
     async function fetchData() {
       const axios_config = {
-        headers: { Authorization: "Bearer keys9gKjERVN7YgGk" },
+        headers: {
+          "Authorization":
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IjE2MjgzIiwiZXhwIjoxNjQxOTc4MzU5LCJpc3MiOiJQcm9ncmFtbWluZyBDbGFzc3Jvb20ifQ.zY0_7FPY14jk8ZcOXJIBYAT7jmEN2hmeOv91l3j5yM8",
+          },
       };
-      const url =
-      "https://api.airtable.com/v0/appCvAxAr9rxmTWh4/ClassList?maxRecords=20&view=Grid%20view" ;
+      const url = "http://140.136.156.12:8080/teacher/HomePage1_s/one/";
       const result = await axios.get(url, axios_config);
       //console.log(result);
-      setCs(result.data.records);
+      // console.log("接到的值:"+result.data[0].cs_id);
+      setCs(result.data);
     }
-
     fetchData();
-  }, [cs]);
+  }, [classes]);
+  
+  // console.log(cs);
 
   function hide() {
     setClasses({
@@ -72,7 +81,6 @@ export default function ClassList() {
     setSelectedId("");
     // setModalVisible(true);
     setModalVisible2(true);
-
   }
 
   function hide2() {
@@ -82,14 +90,13 @@ export default function ClassList() {
     });
     setSelectedId("");
     setModalVisible2(false);
-    
   }
 
   function update(id, index) {
     setClasses({
-      Title: cs[index].fields.Title,
-      Csid: cs[index].fields.Csid,
-      Teacher: cs[index].fields.Teacher,
+      Title: cs[index].cs_name,
+      Csid: cs[index].cs_id,
+      Teacher: cs[index].teacher_name,
     });
 
     setSelectedId(id);
@@ -100,10 +107,10 @@ export default function ClassList() {
 
   const Item = ({ index, item, onPress, style }) => (
     <TouchableOpacity onPress={onPress} style={[styles.item, style]}>
-      <Text>{index}</Text>
-      <Text style={styles.title}>{item.fields.Title}</Text>
-      <Text>{item.fields.Csid},</Text>
-      <Text>{item.fields.Teacher}</Text>
+      {/* <Text>{index}</Text> */}
+      <Text style={styles.title}>{cs[index].cs_id}</Text>
+      <Text>{cs[index].cs_name},</Text>
+      <Text>{cs[index].teacher_name}</Text>
     </TouchableOpacity>
   );
 
@@ -113,13 +120,13 @@ export default function ClassList() {
 
     return (
       <Item
-        // index={index}
+        index={index}
         item={item}
-        onPress={() => navigation.navigate("FunctionList",
-        {
-          Csid: cs[index].fields.Csid,
+        onPress={() =>
+          navigation.navigate("FunctionList", {
+            Csid: cs[index].cs_id,
+          })
         }
-        )}
         style={{ backgroundColor }}
       />
     );
@@ -127,18 +134,20 @@ export default function ClassList() {
 
   const navigation = useNavigation();
 
-  
-
   return (
     <View style={styles.container2}>
-       <FlatList
+      <FlatList
         data={cs}
         renderItem={renderItem}
         keyExtractor={(item, index) => "" + index}
-      >
-      </FlatList>
-  
-      <ClassView modalVisible = {modalVisible} classes = {classes} id={selectedId} hide={hide}/> 
+      ></FlatList>
+
+      <ClassView
+        modalVisible={modalVisible}
+        classes={classes}
+        id={selectedId}
+        hide={hide}
+      />
 
       <Fab onPress={() => add()}>
         <Icon ios="ios-add" android="md-add" />
@@ -150,8 +159,7 @@ export default function ClassList() {
         id={selectedId}
         hide={hide}
       /> */}
-      <ClassAdd modalVisible2 = {modalVisible2} update={update} hide2={hide2}/>
-    
+      <ClassAdd modalVisible2={modalVisible2} update={update} hide2={hide2} />
     </View>
   );
 }

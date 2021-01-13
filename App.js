@@ -50,13 +50,13 @@ Notifications.setNotificationHandler({
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-function Home(){
-  return(
+// function Home(){
+//   return(
 
-    ClassList()
+//     ClassList()
       
-  );
-}
+//   );
+// }
 
 // function Push({route}){
 //   return(
@@ -177,7 +177,7 @@ function App() {
         <Stack.Screen name="SignIn" component={SignIn} />
         <Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name="SignOut" component={SignOut} />
-        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="ClassList" component={ClassList} />
         {/* <Stack.Screen name="Push" component={Push} initialParams={expoPushToken}/> */}
         <Stack.Screen name="FunctionList" component={FunctionList} />
 
@@ -187,7 +187,7 @@ function App() {
         <Stack.Screen name="Announcement" component={Announcement} />
         <Stack.Screen name="Comment" component={Comment} />
         <Stack.Screen name="CommentboxList" component={CommentboxList} />
-
+        
       </Stack.Navigator>
     </NavigationContainer>
     
