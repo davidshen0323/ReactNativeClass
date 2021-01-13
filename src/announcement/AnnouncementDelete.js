@@ -9,55 +9,40 @@ export default function AnnouncementDelete(props) {
 
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
+
     // const [modalVisible, setModalVisible] = useState(true);
 
     useEffect(() => {
         setTitle(props.announcement.Title);
         setContent(props.announcement.Content);
-    }, [props.id]);
+    }, [props]);
 
     function Delete() {
 
         async function sendData() {
             // if id exists, assign a newAnnouncement with id
             // else assign a newAnnouncement without id
-            const deldeteAnnouncement = props.id
-                ? {
-                    records: [{
-                        id: props.id,
-                        fields: {
-                            Title:title,
-                            Content: content
-                        },
-                        
-                    }]
-                }
-                : {
-                    records: [{
-                        id: props.id,
-                        fields: {
-                            Title:title,
-                            Content: content
-                        },
-                    }]
-                }
+            const deleteAnnouncement={
+                at_id: props.id,
+                cs_id: "CSD125",
+            }
+            console.log(deleteAnnouncement);
 
             const axios_config = {
                 headers: {
-                    'Authorization': 'Bearer key4eVi7GTb0FVNWK',
-                    // 'Content-Type': 'application/json',
-                    
+                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IjE2MjgzIiwiZXhwIjoxNjQxOTc4MzU5LCJpc3MiOiJQcm9ncmFtbWluZyBDbGFzc3Jvb20ifQ.zY0_7FPY14jk8ZcOXJIBYAT7jmEN2hmeOv91l3j5yM8',
+                    'Content-Type': 'application/json'
                 }
             }
                 ;
             try {
-                const url = "https://api.airtable.com/v0/appCvAxAr9rxmTWh4/Announcement/"+props.id;
+                const url = "http://140.136.156.12:8080/teacher/announcement/delete/";
                 
                 console.log("成功刪除"+props.id);
                 // if id exists, call put
                 // else call post
                 
-                await axios.delete(url, axios_config) ; 
+                await axios.delete(url, deleteAnnouncement, axios_config) ; 
                    
                     setTitle("");
                     setContent("");
