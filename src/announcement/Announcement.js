@@ -4,35 +4,45 @@ import AnnouncementView from './AnnouncementView';
 import { FlatList, Alert, Modal, StyleSheet, Text, TouchableHighlight, View, TouchableOpacity, RefreshControl } from "react-native";
 import { Icon, Fab } from "native-base";
 import AnnouncementAdd from './AnnouncementAdd';
+import AnnouncementDelete from './AnnouncementDelete';
 
-export default function Announcement() {
+
+export default function Announcement({route}) {
+
 
     const [announcements, setAnnouncements] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [modalVisible2, setModalVisible2] = useState(false);
+    const [modalVisible3, setModalVisible3] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
     const [announcement, setAnnouncement] = useState({
       Title:"",
-      Content:""}
-    );//temp variable for edit
+
+      Content:"",
+      at_id: ""}
+    );
+ 
+    const [Csid, setCsid] = useState(route.params.Csid);
+    console.log("公告的id "+Csid);
+    
 
     useEffect(() => {
 
       async function fetchData () {
         const axios_config = {
-          headers: {'Authorization': 'Bearer key4eVi7GTb0FVNWK'}}
+          headers: {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IjE2MjgzIiwiZXhwIjoxNjQxOTc4MzU5LCJpc3MiOiJQcm9ncmFtbWluZyBDbGFzc3Jvb20ifQ.zY0_7FPY14jk8ZcOXJIBYAT7jmEN2hmeOv91l3j5yM8'}}
         ;
   
-        const url="https://api.airtable.com/v0/appCvAxAr9rxmTWh4/Announcement?maxRecords=30&view=Grid%20view";
-        const result = await axios.get(url,axios_config);
-        //console.log(result);
-        setAnnouncements(result.data.records);
-  
+        const url=`http://140.136.156.12:8080/teacher/announcement/CSD125/get/`;
+        const result = await axios.get(url, axios_config);
+        console.log(result.data);
+        setAnnouncements(result.data);
+        console.log("我接的值"+announcements+"~");
       }
   
       fetchData();
   
-    },[modalVisible]);
+    },[announcement]);
 
     function add() {
       setAnnouncement({
@@ -40,18 +50,10 @@ export default function Announcement() {
         Content: "",
       });
   
-      setSelectedId("");
+      // setSelectedId("");
       setModalVisible2(true);
     }
-    function hide2() {
-      setAnnouncement({
-        Title: "",
-        Content: "",
-      });
-      setSelectedId("");
-      setModalVisible2(false);
-      
-    }
+
 
     function hide(){
       setAnnouncement({
@@ -62,23 +64,52 @@ export default function Announcement() {
       setModalVisible(false);
   
     }
-
-    function update(id, index){
+    function hide2() {
       setAnnouncement({
-        Title:announcements[index].fields.Title,
-        Content:announcements[index].fields.Content
+        Title: "",
+        Content: "",
+      });
+      setSelectedId("");
+      setModalVisible2(false);
+      
+    }
+    function hide3() {
+      setAnnouncement({
+        Title: "",
+        Content: "",
+      });
+      setSelectedId("");
+      setModalVisible3(false);
+      
+    }
+    function update(at_id, index){
+      setAnnouncement({
+        Title:announcements[index].at_title,
+        Content:announcements[index].at_content
       });
   
-      setSelectedId(id);
+      // setSelectedId(announcements[index].at_id);
+      console.log("我選的公告id "+selectedId+"~");
       setModalVisible(true);
     }
   
+    function Delete(index){
+      setAnnouncement({
+        Title:announcements[index].at_title,
+        Content:announcements[index].at_content,
+        at_id: announcements[index].at_id,
+      });
+      console.log("announcements = "+announcements)
+      console.log("ATID~~"+announcements[index].at_id)
+      setSelectedId(announcements[index].at_id);
+      setModalVisible3(true);
+    }
   
     
-    const Item = ({ index, item, onPress, style }) => (
+    const Item = ({ index, item, onPress, onLongPress, style }) => (
       
-      <TouchableOpacity onPress={onPress} style={ styles.openButton}>
-        <Text style={styles.textStyle}>{item.fields.Title}</Text>
+      <TouchableOpacity onPress={onPress} onLongPress={onLongPress} style={ styles.openButton}>
+        <Text style={styles.textStyle}>{announcements[index].at_title}</Text>
       </TouchableOpacity>
     );
 
@@ -88,11 +119,11 @@ export default function Announcement() {
 
 
     return (
-
       <Item
         index={index}
         item={item}
-        onPress={() => update(item.id, index)}
+        onPress={() => update(item.selectedId, index)}
+        onLongPress={() => Delete(index)}
         style={{backgroundColor}}
       />
     );
@@ -111,10 +142,11 @@ export default function Announcement() {
             keyExtractor={(item, index) => ""+index}>
         </FlatList>
         <AnnouncementView modalVisible = {modalVisible} announcement = {announcement} id={selectedId} hide={hide}/> 
+        <AnnouncementDelete modalVisible3 = {modalVisible3} Delete = {Delete} announcement = {announcement} id={selectedId} hide3={hide3}/> 
         <Fab style={styles.fab} onPress={() => add()}>
           <Icon ios="ios-add" android="md-add" />
         </Fab>
-      <AnnouncementAdd modalVisible2 = {modalVisible2} update={update} hide2={hide2}/>
+      <AnnouncementAdd modalVisible2 = {modalVisible2} Csid={Csid} add={add} hide2={hide2}/>
     </View>
 
 

@@ -8,9 +8,7 @@ import CommentboxList from "./CommentboxList";
 import { Avatar} from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 
-const LeftContent = (props) => <Avatar.Icon {...props} icon="folder" />;
-
-export default function Commentbox() {
+export default function Commentbox({route}) {
 
    const[commentboxs, setCommentboxs] = useState([]);
    const [modalVisible, setModalVisible] = useState(false);
@@ -19,7 +17,10 @@ export default function Commentbox() {
     Title:"",
     Content: "",
   });
-   
+   const [list, setList] = useState([]);
+
+   const [csid, setCsid] = useState(route.params.Csid);
+    console.log(csid);
 
   useEffect(() => {
     async function fetchData() {
@@ -31,6 +32,7 @@ export default function Commentbox() {
       const result = await axios.get(url, axios_config);
       //console.log(result);
       setCommentboxs(result.data.records);
+      setList(result.data.records);
     }
 
     fetchData();
@@ -107,18 +109,30 @@ export default function Commentbox() {
         index={index}
         item={item}
         // onPress={() => update(item.id, index)}
-        onPress={() => navigation.navigate("CommentboxList")}
+        onPress={() => {
+          navigation.navigate("CommentboxList",
+          {
+            Title: list[index].fields.Title,
+            Content: list[index].fields.Content,
+            
+          });
+
+          console.log("\n\n\n\n");
+          console.log(list[index].fields.Title);
+          console.log(list[index].fields.Content);
+          console.log("\n\n\n\n");
+        }}
+          //id:item.id
+
         style={{ backgroundColor }}
       />
+      
+      
+      
     );
   };
 
-
-//   const ImagesExample = () => (
-//     <Image source = {{uri:'https://image.flaticon.com/icons/svg/1915/1915932.svg'}}
-//     style = {{ width: 10, height: 10 }}
-//     />
-//  )
+  
 
 
   return (
@@ -133,10 +147,16 @@ export default function Commentbox() {
         renderItem={renderItem}
         keyExtractor={(item, index) => "" + index}
       ></FlatList>
-  
+
+
       <Fab onPress={() => add()}>
         <Icon ios="ios-add" android="md-add" />
       </Fab>
+
+      <CommentboxList
+        commentbox={commentbox}
+        id={selectedId}
+      />
 
       <CommentboxAddEdit
         modalVisible={modalVisible}

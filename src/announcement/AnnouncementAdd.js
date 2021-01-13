@@ -3,34 +3,33 @@ import { Button , TextInput, Modal, StyleSheet, TouchableHighlight, Text } from 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import axios from 'axios';
 import { View } from 'native-base';
+import { cos } from 'react-native-reanimated';
 
 export default function AnnouncementAdd(props) {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  
-  
-  function update(){
+  const [Csid, setCsid] = useState(props.Csid);
+  console.log("新增的ID "+props.Csid);
+  function add(){
     async function sendData(){
-
         const newAnnouncement={
-            fields:{
-                Title:title,
-                Content:content,
-            }
+            // cs_id: props.Csid,
+            cs_id: "CSD125",
+            at_title: title,
+            at_content: content
         }
         console.log(newAnnouncement)
         const axios_config = {
             headers: {
-                'Authorization': 'Bearer key4eVi7GTb0FVNWK',
+                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IjE2MjgzIiwiZXhwIjoxNjQxOTc4MzU5LCJpc3MiOiJQcm9ncmFtbWluZyBDbGFzc3Jvb20ifQ.zY0_7FPY14jk8ZcOXJIBYAT7jmEN2hmeOv91l3j5yM8',
                 'Content-Type': 'application/json'}
             }
         ;
         try {
 
-            const url="https://api.airtable.com/v0/appCvAxAr9rxmTWh4/Announcement?maxRecords=50&view=Grid%20view";
-            const result = await axios.post(url,newAnnouncement, axios_config);
-            console.log(result);
+            const url="http://140.136.156.12:8080/teacher/announcement/post/";
+            const result = await axios.post(url, newAnnouncement, axios_config);
             setTitle("");
             setContent("");
             //setPersons(result.data.records);
@@ -46,24 +45,19 @@ export default function AnnouncementAdd(props) {
         }
         
   return (
-    <Modal animationType="slide"
-    transparent={true}
-    visible={props.modalVisible2}
-    onRequestClose={() => {
-        Alert.alert("Modal has been closed.");
-      }} >
-    <View style={styles.centeredView2}>
-      <View style={styles.modalView}>
-    <TextInput placeholder="標題" value={title} onChangeText={text=>setTitle(text)}/>
-    <TextInput placeholder="內容" value={content} onChangeText={text=>setContent(text)}/>
-    <TouchableHighlight style={styles.openButton} onPress={update}>
-      <Text style={styles.textStyle}>新增</Text>
-    </TouchableHighlight>
-    <TouchableHighlight style={styles.openButton} onPress={props.hide2} >
-      <Text style={styles.textStyle}>關閉公告</Text>
-    </TouchableHighlight>
-    </View>
-    </View>
+    <Modal animationType="slide" transparent={true} visible={props.modalVisible2} onRequestClose={() => { Alert.alert("Modal has been closed."); }} >
+      <View style={styles.centeredView2}>
+        <View style={styles.modalView}>
+          <TextInput placeholder="標題" value={title} onChangeText={text=>setTitle(text)}/>
+          <TextInput placeholder="內容" value={content} onChangeText={text=>setContent(text)}/>
+            <TouchableHighlight style={styles.openButton} onPress={add}>
+              <Text style={styles.textStyle}>新增</Text>
+            </TouchableHighlight>
+            <TouchableHighlight style={styles.openButton} onPress={props.hide2} >
+              <Text style={styles.textStyle}>關閉公告</Text>
+            </TouchableHighlight>
+        </View>
+      </View>
     </Modal>
   );
 
