@@ -1,39 +1,26 @@
 import React, {useState, useEffect} from 'react';
-import {FlatList,
-        View, 
-        Text, 
-        TouchableOpacity, 
-        StatusBar, 
-        StyleSheet, 
-        Image,
-        TextInput, 
-        Button,
-        KeyboardAvoidingView,
-        Platform,
-        TouchableWithoutFeedback,
-        Keyboard
-      } from 'react-native';
-import { Icon, Fab, Content, Title } from "native-base";  
+import { FlatList, View, Text, TouchableOpacity, StatusBar, StyleSheet, Image} from 'react-native';
+import { Icon, Fab } from "native-base";
 import axios from "axios";
-import Commentbox from "./Commentbox"
+import CommentboxAddEdit from "./CommentboxAddEdit";
+import CommentboxList from "./CommentboxList";
 // import styles from "../styles";
-import Moment from 'moment';
+import { Avatar} from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
 
-function CommentboxList({route}){
-  
-   const [modalVisible, setModalVisible] = useState(false);
+export default function Commentbox({route}) {
+
    const[commentboxs, setCommentboxs] = useState([]);
+   const [modalVisible, setModalVisible] = useState(false);
    const [selectedId, setSelectedId] = useState(null);
-   const [message, setMessage] = useState();
-   const [time, setTime] = useState();
-  //  const [title, setTitle] = useState();
-  //  const [content, setContent] = useState();
-  //  const {Title} = route.params.Title;
-  //  const {Content} = route.params.Content;
-  //  console.log(Title);
-  //  console.log(Content);
+   const [commentbox, setCommentbox] = useState({
+    Title:"",
+    Content: "",
+  });
+   const [list, setList] = useState([]);
 
-
+   const [csid, setCsid] = useState(route.params.Csid);
+    console.log(csid);
 
   useEffect(() => {
     async function fetchData() {
@@ -41,173 +28,163 @@ function CommentboxList({route}){
         headers: { Authorization: "Bearer keys9gKjERVN7YgGk" },
       };
       const url =
-        "https://api.airtable.com/v0/appCvAxAr9rxmTWh4/CommentboxList?maxRecords=50&view=Grid%20view";
+        "https://api.airtable.com/v0/appCvAxAr9rxmTWh4/Commentbox?maxRecords50&=view=Grid%20view";
       const result = await axios.get(url, axios_config);
       //console.log(result);
       setCommentboxs(result.data.records);
+      setList(result.data.records);
     }
 
     fetchData();
-  }, [commentboxs]);
-   
+  }, [modalVisible]);
 
-  //  useEffect(() => {
-  //   setTitle(route.params.Title); 
-  //   setContent(route.params.Content);
-  // }, [route.params.id]);
-  
-
-  function update() {
-
-    async function sendData() {
-
-        const newCommentbox = route.params.id
-            ? {
-                records: [{
-                    //id: route.params.id,
-                    fields: {
-                        Message: message,
-                        Time: time,
-                    }
-                }]
-            }
-            : {
-                fields: {
-                      Message: message,
-                      Time: time,
-                  }
-            }
-
-            const axios_config = {
-                headers: {
-                    'Authorization': 'Bearer keys9gKjERVN7YgGk',
-                    'Content-Type': 'application/json'}
-                }
-            ;
-            try {
     
-                const url="https://api.airtable.com/v0/appCvAxAr9rxmTWh4/CommentboxList?maxRecords=50&view=Grid%20view";
+  function hide() {
+    setCommentbox({
+        Title:"",
+        Content: "",
+    });
+    setSelectedId("");
+    setModalVisible(false);
+  }
 
-            // if id exists, call put
-            // else call post
-            
-            const result = route.params.id
-                ? await axios.put(url, newCommentbox, axios_config)
-                : await axios.post(url, newCommentbox, axios_config);
+  function close() {
+    setCommentbox({
+        Title:"",
+        Content: "",
+    });
+  }
 
-                setMessage("");
-                setTime("");
-                console.log(result.data);
-            
+  function add() {
+    setCommentbox({
+        Title:"",
+        Content: "",
+    });
 
-            // props.hide();
-        }
+    setSelectedId("");
+    setModalVisible(true);
+  }
 
-        catch (e) {
-            console.log("error:" + e);
-        }
-    }
-    sendData();
+  function update(id, index) {
+    setCommentbox({
+      Title: commentboxs[index].fields.Title,
+      City: commentboxs[index].fields.Content,
+    });
 
-}
+    setSelectedId(id);
+    setModalVisible(true);
+
+    navigation.navigate("CommentboxList");
+  }
 
 
+  const navigation = useNavigation();
+  const Item = ({ index, item, onPress, style }) => (
+    <TouchableOpacity
+      onPress={onPress} style={[styles.item, style]}>
+      {/* <Text>{index}</Text> */}
+      <View style={styles.frame}>
+        <Text style={styles.title}>
+          {item.fields.Title}
+        </Text>
+      </View>
+      
+      <View style={styles.frame2}>
+        <Text style={styles.itemtext}>
+          {item.fields.Content}
+        </Text>
+      </View>
 
-
-const Item = ({ index, item, onPress, style }) => (
-  <TouchableOpacity
-    onPress={onPress} style={[styles.item, style]}>
-    {/* <Text>{index}</Text> */}
-    <View style={styles.frame}>
-      <Text style={styles.title}>
-        {item.fields.Message}
-      </Text>
-    </View>
+    </TouchableOpacity>
     
-    <View style={styles.frame2}>
-      <Text style={styles.itemtext}>
-        {item.fields.Time}
-      </Text>
-    </View>
-
-  </TouchableOpacity>
-  
-);
-    
-const renderItem = ({ item, index }) => {
-
-  const backgroundColor = item.id === selectedId ? "#f8b62b" : "#f8b62b";
-
-
-  return (
-    <Item
-      index={index}
-      item={item}
-      // onPress={() => update(item.id, index)}
-      style={{backgroundColor}}
-    />
   );
-};
+
+
+  const renderItem = ({ item, index }) => {
+    const backgroundColor =
+      item.id === selectedId ? "#f9c2ff" : styles.item.backgroundColor;
+
+    return (
+      <Item
+        index={index}
+        item={item}
+        // onPress={() => update(item.id, index)}
+        onPress={() => {
+          navigation.navigate("CommentboxList",
+          {
+            Title: list[index].fields.Title,
+            Content: list[index].fields.Content,
+            
+          });
+
+          console.log("\n\n\n\n");
+          console.log(list[index].fields.Title);
+          console.log(list[index].fields.Content);
+          console.log("\n\n\n\n");
+        }}
+          //id:item.id
+
+        style={{ backgroundColor }}
+      />
+      
+      
+      
+    );
+  };
+
   
 
 
-  const ImagesExample = () => (
-    <Image source = {{uri:'https://image.flaticon.com/icons/svg/1915/1915932.svg'}}
-    style = {{ width: 400, height: 400 }}
-    />
- )
-
-
   return (
-   
-  <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.keyboardcontainer}
-  >
+    
+    <View style={styles.container2}>
 
-  <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-  <View style={styles.inner}>
-  <View style={styles.container2}>
-
-    <Text style={styles.textCommentbox}>留言板</Text>
-      {/* <View style={styles.viewbox}> */}
-
+      <Text style={styles.textCommentbox}>討論區</Text>
       {/* <ImagesExample /> */}
       
-      {/* <View>
-          <Text> {JSON.stringfy(Title)} </Text>
-          <Text> {JSON.stringfy(Content)} </Text>
-      </View> */}
-
       <FlatList
         data={commentboxs}
         renderItem={renderItem}
         keyExtractor={(item, index) => "" + index}
-      ></FlatList>       
+      ></FlatList>
 
-      <TextInput
-        multiline
-        value={message}
-        style={styles.input}
-        placeholder='請輸入內文'
-        onChangeText={(newmessage) => setMessage(newmessage)}/>
+
+      <Fab onPress={() => add()}>
+        <Icon ios="ios-add" android="md-add" />
+      </Fab>
+
+      <CommentboxList
+        commentbox={commentbox}
+        id={selectedId}
+      />
+
+      <CommentboxAddEdit
+        modalVisible={modalVisible}
+        commentbox={commentbox}
+        id={selectedId}
+        hide={hide}
+      />
       
-      <Button onPress={update} title="留言"/>
-
-      {/* </View> */}
-  </View>
-  </View>
-  </TouchableWithoutFeedback>
-  </KeyboardAvoidingView>
+    </View>
 
   );
 
 }
 
+
+
 const styles = StyleSheet.create({
 
-  keyboardcontainer: {
+  container: {
     flex: 1,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    padding: 35,
+    backgroundColor: '#ffd1a4',
+    marginTop: StatusBar.currentHeight || 0,
+    alignItems: "center",
+
   },
 
   container2: {
@@ -222,14 +199,11 @@ const styles = StyleSheet.create({
     // marginRight:5,
     // marginTop: 10,
     alignItems: "center",
-    borderRadius: 20,
-    marginBottom:35
-
 
   },
 
 
-  item: {
+  item: { 
     flex: 5,
     display: "flex",
     flexDirection: "column",
@@ -240,7 +214,6 @@ const styles = StyleSheet.create({
     // marginHorizontal: 16,
     alignContent: 'space-around',
     borderRadius: 20,
-
     height:100,
     width:300
   },
@@ -289,8 +262,7 @@ const styles = StyleSheet.create({
   textCommentbox:{
     fontSize:30,
     fontWeight:'bold',
-    marginBottom:20,
-    marginTop:10
+    marginBottom:20
 },
 
 frame:{
@@ -307,28 +279,8 @@ frame2:{
   alignContent: 'space-around',
 },
 
-viewbox:{
-  backgroundColor:'#ffffff'
-},
-
-input: {
-  borderWidth: 1,
-  borderColor: '#777',
-  padding: 8,
-  margin: 10,
-  width: 200,
-},
-
-inner: {
-  padding: 24,
-  flex: 1,
-  justifyContent: "space-around"
-},
-
 
   
   
 
 });
-
-export default CommentboxList;

@@ -45,8 +45,8 @@ export default function MyComponent(props) {
           },
       };
       const url =
-       //"https://api.airtable.com/v0/appCvAxAr9rxmTWh4/WorkList?maxRecords=50&view=Grid%20view";
-      "http://140.136.156.12:8080/teacher/acceptance/hw/CSD129/cc";
+       "https://api.airtable.com/v0/appCvAxAr9rxmTWh4/WorkList?maxRecords=50&view=Grid%20view";
+      //"http://140.136.156.12:8080/teacher/acceptance/hw/CSD129/cc";
       const result = await axios.get(url, axios_config);
       //console.log(url);
       setAcceptances(result.data);
