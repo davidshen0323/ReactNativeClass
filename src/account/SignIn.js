@@ -1,76 +1,117 @@
 import React, { useState, useEffect } from "react";
 import { Button, View, Text, TextInput, Image } from "react-native";
-import * as firebase from "firebase";
-import * as FirebaseCore from "expo-firebase-core";
 import styles from "../styles";
 import CheckBox from "react-native-check-box";
 import * as SecureStore from "expo-secure-store";
+import axios from 'axios';
+import { useLinkProps } from "@react-navigation/native";
 
 
 
-export default function SignIn({ navigation }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isSelected, setSelect] = useState(false);
 
-  if (!firebase.apps.length) {
-    firebase.initializeApp(FirebaseCore.DEFAULT_WEB_APP_OPTIONS);
-  }
+  export default function SignIn({ navigation, route }) {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [isSelected, setSelect] = useState(false);
+    const [jsonReturn, setJsonReturn] = useState({
+      user_role:"",
+      token:""}
+    );
 
-  function signIn() {
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then((res) => {
-        console.log(res);
-        console.log("User login successfully!");
-        if (isSelected === true) {
-          const loginString = JSON.stringify({
-            email: email,
-            password: password,
-          });
-          SecureStore.setItemAsync("login", loginString)
-            .then(() => {
-              const login = JSON.parse(loginString);
-              console.log(login);
-              setEmail(login.email);
-              setPassword(login.password);
-            })
-            .catch((error) => {
-              setEmail(error.message);
-            });
-        } else {
-          SecureStore.deleteItemAsync("login")
-            .then(() => {
-              setEmail("");
-              setPassword("");
-            })
-            .catch((error) => {
-              setEmail(error.message);
-            });
-        }
+    // useEffect(() => {
 
-        navigation.navigate("Home");
+    //   async function fetchData () {
+    //     const axios_config = {
+    //       headers: {
+    //         'Content-Type': 'application/json'
+    //       }
+    //     };
+  
+    //     const url="http://140.136.156.12:8080/auth/";
+    //     const result = await axios.post(url,axios_config);
+    //     //console.log(result);
+    //     setJsonReturn(result.data.records);
+    //   }
+    //   fetchData();
+
+    // },[]);
+    // console.log(jsonReturn);
+
+
+    // async function signIn() {
+    //   fetch('http://140.136.156.12:8080/auth/', {
+    //     method: 'POST',
+    //     headers: {
+    //       Accept: 'application/json',
+    //       'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify({
+    //       name: email,
+    //       password: password
+    //     })
+    //   }).then(res => {
+    //     const result = await res.json();
+    //   });
+    // }
+
+    // const navigation = useNavigation();
+
+    const handleSubmitAsk = () => {
+      console.log(email);
+      console.log(password);
+      fetch('http://140.136.156.12:8080/auth/', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: email,
+          password: password
+        })
       })
-      .catch((error) => setEmail(error.message));
-  }
+        .then(res => {
+          async function fetchres() {
+            const result = await res.json();
+            // const test = await res.text();
+            // console.log(result);
+            console.log(result["token"]);
+            console.log(result["user_role"]);
+            
+            navigation.navigate("ClassList",
+            {
+              Token: result["token"],
+              Role: result["user_role"],
+            }
+            )
+  
+            setClicked(true);
+  
+          } fetchres()
+        })
+    }
+  
 
-  function getAccount() {
-    SecureStore.getItemAsync("login")
-      .then((loginString) => {
-        const login = JSON.parse(loginString);
-        console.log(login);
-        if (login) {
-          setEmail(login.email);
-          setPassword(login.password);
-        }
-      })
-      .catch((error) => {
-        setEmail(error.message);
-      });
-  }
 
-  useEffect(getAccount, []);
+  // function update(){
+  //   signIn();
+  // }
+
+  // function getAccount() {
+  //   SecureStore.getItemAsync("login")
+  //     .then((loginString) => {
+  //       const login = JSON.parse(loginString);
+  //       // console.log(login);
+  //       if (login) {
+  //         setEmail(login.email);
+  //         setPassword(login.password);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       setEmail(error.message);
+  //     });
+  // }
+  // useEffect(getAccount, []);
 
   return (
     <View style={styles.container}>
@@ -81,7 +122,7 @@ export default function SignIn({ navigation }) {
 
       <TextInput
         style={styles.inputStyle}
-        placeholder="電子信箱"
+        placeholder="帳號"
         value={email}
         onChangeText={(text) => setEmail(text)}
       />
@@ -95,7 +136,7 @@ export default function SignIn({ navigation }) {
         secureTextEntry={true}
       />
 
-      <Button title="登入" onPress={signIn} />
+      <Button title="登入" onPress={handleSubmitAsk} />
 
       <View style={styles.checkboxContainer}>
         <CheckBox

@@ -14,8 +14,15 @@ export default function HandsUpWork({route}) {
    const [works, setWorks] = useState([]);
    const [acceptance, setAcceptance] = useState([]);
    const [modalVisible, setModalVisible] = useState(false);
+
    const [Csid,setCsid] =useState(route.params.Csid);
    console.log("課堂列表的csid"+Csid)
+
+   const [selectedId, setSelectedId] = useState(null);
+   const [newworks, setNewworks] = useState({
+    Title:"",
+  });
+
 
   useEffect(() => {
     async function fetchData() {
